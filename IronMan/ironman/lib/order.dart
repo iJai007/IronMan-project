@@ -85,7 +85,7 @@ class _OrderState extends State<Order> {
                         children: [
                           DropdownMenu<String>(
                             width: 145,
-                            controller: widget.te1[index],
+                            controller: widget.te1[i + index],
                             trailingIcon: const Icon(
                               Icons.arrow_drop_down,
                               color: Colors.white,

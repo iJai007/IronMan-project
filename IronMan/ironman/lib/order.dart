@@ -3,10 +3,13 @@ import 'package:ironman/data.dart';
 import 'package:ironman/shopmodel.dart';
 
 class Order extends StatefulWidget {
-  late List<TextEditingController> te;
-  List<int> qty = List.generate(100, (index) => index);
+  /*late List<TextEditingController> te;
+  
+ 
   //List<Data> data = [Data()];
-  int tex = 0;
+  int tex = 0;*/
+  Map<String, int> selected = {};
+  List<int> qty = List.generate(100, (index) => index);
   Shopmodel shop;
   List<bool> open = [
     false,
@@ -22,11 +25,11 @@ class Order extends StatefulWidget {
 }
 
 class _OrderState extends State<Order> {
-  @override
+  /*@override
   void initState() {
     super.initState();
     widget.te = List.generate(200, (index) => TextEditingController());
-  }
+  }*/
 
   List<String> cloth = ['Shirt/T-Shirt', 'Pant', 'Dhothi', 'Dress', 'Saree'];
 
@@ -110,8 +113,20 @@ class _OrderState extends State<Order> {
                                   fontWeight: FontWeight.bold)),
                         ),
                         trailing: DropdownMenu<int>(
+                          onSelected: (value) {
+                            if (value != null) {
+                              setState(() {
+                                widget.selected.addAll({
+                                  widget.shop.Cost.values
+                                      .elementAt(i)
+                                      .keys
+                                      .elementAt(index): value
+                                });
+                              });
+                            }
+                          },
                           width: 85,
-                          controller: widget.te[widget.tex++],
+                          //controller: widget.te[widget.tex++],
                           trailingIcon: const Icon(
                             Icons.arrow_drop_down,
                             color: Colors.white,

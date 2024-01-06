@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:ironman/assests/shop.dart';
+import 'package:ironman/mongoconnect.dart';
+import 'package:ironman/shop.dart';
 import 'package:ironman/order.dart';
+
+import 'shopmodel.dart';
 
 class AppHome extends StatelessWidget {
   const AppHome({super.key});
+  Future<List<Shopmodel>> getData() async {
+    List<Shopmodel> shops = await Mongoconnect().connect();
+    return shops;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -123,8 +130,14 @@ class AppHome extends StatelessWidget {
                               style: const ButtonStyle(
                                   backgroundColor: MaterialStatePropertyAll(
                                       Color.fromARGB(255, 2, 134, 149))),
-                              onPressed: () {},
-                              icon: Icon(Icons.iron_rounded),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Shop(val: 'Iron'),
+                                    ));
+                              },
+                              icon: const Icon(Icons.iron_rounded),
                               color: Colors.white,
                             ),
                             const Text('Iron')
@@ -139,10 +152,17 @@ class AppHome extends StatelessWidget {
                                   backgroundColor:
                                       MaterialStatePropertyAll(Colors.white)),
 
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          Shop(val: 'Steam Iron'),
+                                    ));
+                              },
                               icon: ClipOval(
                                 child: Image.asset('lib/assests/SteamIron.jpg',
-                                    scale: Checkbox.width / 3,
+                                    scale: Checkbox.width / 2.8,
                                     fit: BoxFit.contain),
                               ), //Icon(Icons.abc),
                               color: Colors.amber,
@@ -158,7 +178,13 @@ class AppHome extends StatelessWidget {
                               style: const ButtonStyle(
                                   backgroundColor: MaterialStatePropertyAll(
                                       Color.fromARGB(255, 0, 107, 228))),
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Shop(val: 'Wash'),
+                                    ));
+                              },
                               icon: Image.asset(
                                   color: Colors.white,
                                   'lib/assests/dishwasher_FILL0_wght400_GRAD0_opsz24.png',
@@ -193,7 +219,7 @@ class AppHome extends StatelessWidget {
                                   fit: BoxFit.fitHeight), //Icon(Icons.abc),
                               color: Colors.amber,
                             ),
-                            Text('data')
+                            const Text('Dry Clean')
                           ]),
                       Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -277,38 +303,65 @@ class AppHome extends StatelessWidget {
               margin: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  Title(color: Colors.white, child: const Text('Shops')),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: list.length,
-                    itemBuilder: (context, index) {
-                      return Card(
-                        child: InkWell(
-                          hoverColor: const Color.fromARGB(255, 17, 65, 3),
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Order(),
-                                ));
-                          },
-                          child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                const Icon(Icons.iron_outlined, size: 100),
-                                const SizedBox(
-                                  width: 25,
+                  Title(
+                      color: Colors.white,
+                      child: const Text(
+                        'Shops',
+                        style: TextStyle(
+                            fontSize: 25, fontWeight: FontWeight.bold),
+                      )),
+                  FutureBuilder<List<Shopmodel>>(
+                    future: getData(),
+                    builder: (context, snapshot) => (snapshot.hasData)
+                        ? ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: snapshot.data!.length,
+                            itemBuilder: (context, index) {
+                              return Card(
+                                child: InkWell(
+                                  hoverColor:
+                                      const Color.fromARGB(255, 17, 65, 3),
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Order(
+                                                shop: snapshot.data![index])
+                                            //Order(shops: snapshot.data[index] ),
+                                            ));
+                                  },
+                                  child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        const Icon(Icons.iron_outlined,
+                                            size: 100),
+                                        const SizedBox(
+                                          width: 25,
+                                        ),
+                                        Text(
+                                          snapshot.data![index].Name,
+                                          //list[index],
+                                          overflow: TextOverflow.clip,
+                                          style: const TextStyle(fontSize: 25),
+                                        )
+                                      ]),
                                 ),
-                                Text(
-                                  list[index],
-                                  overflow: TextOverflow.clip,
-                                  style: const TextStyle(fontSize: 25),
-                                )
-                              ]),
-                        ),
-                      );
-                    },
+                              );
+                            },
+                          )
+                        : const Center(
+                            child: Card(
+                              child: SizedBox(
+                                height: 50,
+                                width: 50,
+                                child: CircularProgressIndicator(
+                                    color: Colors.white, strokeWidth: 5),
+                              ),
+                            ),
+                          ),
                   ),
                 ],
               ),

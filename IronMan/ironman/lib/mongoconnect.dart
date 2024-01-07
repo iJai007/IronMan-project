@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import 'package:ironman/shopmodel.dart';
+import 'package:ironman/models/shopmodel.dart';
 
 class Mongoconnect {
   Future<List<Shopmodel>> connect() async {

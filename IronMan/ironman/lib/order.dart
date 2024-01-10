@@ -14,13 +14,7 @@ class Order extends StatefulWidget {
   List<int> qty = List.generate(100, (index) => index);
   Shopmodel shop;
   List<Ordermodel> order = [];
-  List<bool> open = [
-    false,
-    false,
-    false,
-    false,
-    false,
-  ];
+  List<bool> open = [];
   Order({super.key, required this.shop});
 
   @override
@@ -28,18 +22,6 @@ class Order extends StatefulWidget {
 }
 
 class _OrderState extends State<Order> {
-  /*@override
-  void initState() {
-    super.initState();
-    widget.te = List.generate(200, (index) => TextEditingController());
-  }*/
-
-  List<String> cloth = ['Shirt/T-Shirt', 'Pant', 'Dhothi', 'Dress', 'Saree'];
-
-  List<double> cost = [10, 10, 20, 10, 30];
-
-  List<String> srv = ['Iron', 'Dry Clean', 'Wash', 'Steam'];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,6 +38,7 @@ class _OrderState extends State<Order> {
                 builder: (context) => Cart(
                     selected: widget.selected,
                     shop: widget.shop.Name,
+                    address: widget.shop.Area,
                     order: widget.order),
               ));
         },
@@ -66,6 +49,7 @@ class _OrderState extends State<Order> {
       body: ListView.builder(
         itemCount: widget.shop.Services.length, // srv.length,
         itemBuilder: (context, i) {
+          widget.open.add(true);
           return Card(
             child: Column(
               children: [
@@ -125,63 +109,45 @@ class _OrderState extends State<Order> {
                                   fontWeight: FontWeight.bold)),
                         ),
                         trailing: DropdownMenu<int>(
+                          inputDecorationTheme: const InputDecorationTheme(
+                              fillColor: Colors.green),
+                          menuHeight: 200,
                           onSelected: (value) {
                             if (value != null) {
                               setState(() {
-                                widget.order.add(Ordermodel(
-                                    cost: widget.shop.Cost.values
-                                        .elementAt(i)
-                                        .values
-                                        .elementAt(index),
-                                    item: widget.shop.Cost.values
-                                        .elementAt(i)
-                                        .keys
-                                        .elementAt(index),
-                                    qty: value,
-                                    service:
-                                        widget.shop.Cost.keys.elementAt(i)));
-
-                                /*
-                                /* if (!widget.selected.containsKey(widget
-                                    .shop.Cost.values
-                                    .elementAt(i)
-                                    .keys
-                                    .elementAt(index))) {
-                                  widget.selected.addAll({
-                                    widget.shop.Cost.values
-                                        .elementAt(i)
-                                        .keys
-                                        .elementAt(index): value
-                                  });
-                                } else {*/
-                                widget.selected.update(ifAbsent: () {
-                                  widget.selected.addAll({
-                                    widget.shop.Cost.keys.elementAt(i): {
-                                      widget.shop.Cost.values
-                                          .elementAt(i)
-                                          .keys
-                                          .elementAt(index): value
-                                    }
-                                  });
-                                  return {
-                                    widget.shop.Cost.values
-                                        .elementAt(i)
-                                        .keys
-                                        .elementAt(index): value
-                                  };
-                                },
-                                    widget.shop.Cost.values
-                                        .elementAt(i)
-                                        .keys
-                                        .elementAt(index),
-                                    (val) => {
+                                bool there = false;
+                                for (var element in widget.order) {
+                                  if (element.item ==
                                           widget.shop.Cost.values
                                               .elementAt(i)
                                               .keys
-                                              .elementAt(index): value
-                                        });
-                                //}
-                              */
+                                              .elementAt(index) &&
+                                      element.cost ==
+                                          widget.shop.Cost.values
+                                              .elementAt(i)
+                                              .values
+                                              .elementAt(index) &&
+                                      element.service ==
+                                          widget.shop.Cost.keys.elementAt(i)) {
+                                    there = true;
+                                    element.qty = value;
+                                    break;
+                                  }
+                                }
+                                if (!there) {
+                                  widget.order.add(Ordermodel(
+                                      cost: widget.shop.Cost.values
+                                          .elementAt(i)
+                                          .values
+                                          .elementAt(index),
+                                      item: widget.shop.Cost.values
+                                          .elementAt(i)
+                                          .keys
+                                          .elementAt(index),
+                                      qty: value,
+                                      service:
+                                          widget.shop.Cost.keys.elementAt(i)));
+                                }
                               });
                             }
                           },

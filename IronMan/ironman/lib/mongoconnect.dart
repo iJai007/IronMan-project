@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 
 import 'package:ironman/models/shopmodel.dart';
@@ -14,6 +15,18 @@ class Mongoconnect {
       return shops;
     } else {
       throw Exception('Failed to load data: ${res.statusCode}');
+    }
+  }
+
+  Future<bool> saveOrder(order) async {
+    var res = await http.post(
+        Uri.parse('http://localhost:5000/api/shops/placeOrder'),
+        headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+        body: order);
+    if (res.statusCode == 200) {
+      return true;
+    } else {
+      return false;
     }
   }
 }

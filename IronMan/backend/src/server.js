@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const multer = require('multer');
+mongoose.set('strictQuery', true);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -14,7 +15,6 @@ mongoose.connect("mongodb+srv://jaideeparunsr:z0rdSBSH3bPjRwY2@cluster0.fmq0pod.
     app.get("/", function(req, res) {
         res.send("IronMan backend");
     });
-
     const userRoutes = require('./routes/user_routes');
     app.use("/api/shops", userRoutes);
 

@@ -15,7 +15,9 @@ class Cart extends StatefulWidget {
   String UserName = 'iJ007';
   String UserID = 'iJ007';
   Map<String, Map<String, dynamic>> orderData = {};
-  List<Ordermodel> order;
+  List<Ordermodel> order = [
+    Ordermodel(cost: '10', item: 'Shirt', qty: 5, service: 'Iron')
+  ]; //delete later for debugging
   Cart(
       {super.key,
       required this.selected,
@@ -108,70 +110,78 @@ class _CartState extends State<Cart> {
                     double.parse(widget.order[index].cost).toDouble();
 
                 return Card(
+                    surfaceTintColor: Color.fromARGB(184, 234, 208, 95),
+                    shadowColor: Colors.white,
+                    elevation: 10,
+                    color: Color.fromARGB(184, 234, 208, 95),
                     child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Column(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Title(
-                              color: Colors.white,
-                              child: Text(
-                                '${widget.order[index].item}',
-                                style: TextStyle(fontSize: 25),
-                              )),
-                          Title(
-                              color: Colors.white,
-                              child: Text(
-                                'Service : ${widget.order[index].service}\nCost : ${widget.order[index].cost} per unit ',
-                                style: TextStyle(fontSize: 15),
-                              ))
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Card(
-                                  color:
-                                      const Color.fromARGB(255, 200, 129, 129),
-                                  elevation: 10,
-                                  child: OverflowBar(
-                                    children: [
-                                      IconButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              widget.order[index].qty--;
-                                            });
-                                          },
-                                          icon: const Icon(Icons.remove)),
-                                      Text(widget.order[index].qty.toString(),
-                                          style: const TextStyle(fontSize: 20)),
-                                      IconButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              widget.order[index].qty++;
-                                            });
-                                          },
-                                          icon: const Icon(Icons.add)),
-                                    ],
-                                  ),
-                                ),
-                              ]),
-                          Text(
-                            ('Price: ${widget.order[index].qty * double.parse(widget.order[index].cost)}  '),
-                            style: const TextStyle(
-                                fontSize: 25, fontWeight: FontWeight.bold),
+                          Column(
+                            children: [
+                              Title(
+                                  color: Colors.white,
+                                  child: Text(
+                                    '${widget.order[index].item}',
+                                    style: TextStyle(fontSize: 25),
+                                  )),
+                              Title(
+                                  color: Colors.white,
+                                  child: Text(
+                                    'Service : ${widget.order[index].service}\nCost : ${widget.order[index].cost} per unit ',
+                                    style: TextStyle(fontSize: 15),
+                                  ))
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Card(
+                                      color: const Color.fromARGB(
+                                          123, 255, 193, 7),
+                                      elevation: 10,
+                                      child: OverflowBar(
+                                        children: [
+                                          IconButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  widget.order[index].qty--;
+                                                });
+                                              },
+                                              icon: const Icon(Icons.remove)),
+                                          Text(
+                                              widget.order[index].qty
+                                                  .toString(),
+                                              style: const TextStyle(
+                                                  fontSize: 20)),
+                                          IconButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  widget.order[index].qty++;
+                                                });
+                                              },
+                                              icon: const Icon(Icons.add)),
+                                        ],
+                                      ),
+                                    ),
+                                  ]),
+                              Text(
+                                ('Price: ${widget.order[index].qty * double.parse(widget.order[index].cost)}  '),
+                                style: const TextStyle(
+                                    fontSize: 25, fontWeight: FontWeight.bold),
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                ));
+                    ));
               },
             ),
           ],

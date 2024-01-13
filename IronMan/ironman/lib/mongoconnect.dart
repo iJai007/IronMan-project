@@ -29,6 +29,23 @@ class Mongoconnect {
       return false;
     }
   }
+
+  Future<bool> saveUser(User, OTP) async {
+    var res = await http.post(
+        Uri.parse('http://localhost:5000/api/shops/createUser'),
+        headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+        body: json.encode({'Data': User, 'OTP': OTP}));
+    if (res.statusCode == 200) {
+      Map data = json.decode(res.body);
+      if (data.values.elementAt(0)) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
 }
 
 

@@ -13,15 +13,6 @@ class AppHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> list = [
-      'Iron ',
-      'l1dhgfsa',
-      'l1dhgfsa',
-      'l1dhgfsa',
-      'l1dhgfsa',
-      'l1dhgfsa',
-      'l1dhgfsa'
-    ];
     return Scaffold(
       drawer: Drawer(
           child: Column(
@@ -98,10 +89,13 @@ class AppHome extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Card(
-              color: Colors.black,
+              surfaceTintColor: Colors.black,
+              elevation: 10,
+              color: const Color.fromARGB(0, 255, 255, 255),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0),
-                  side: BorderSide(color: Color.fromARGB(255, 6, 97, 26))),
+                  side:
+                      const BorderSide(color: Color.fromARGB(255, 6, 97, 26))),
               shadowColor: Colors.white,
               margin: const EdgeInsets.all(8.0),
               child: Column(
@@ -294,11 +288,15 @@ class AppHome extends StatelessWidget {
               ),
             ),
             Card(
-              color: Colors.black,
+              surfaceTintColor: Colors.black,
+              elevation: 10,
+              color: const Color.fromARGB(0, 255, 255, 255),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0),
-                  side: BorderSide(color: Color.fromARGB(255, 6, 97, 26))),
-              shadowColor: Colors.white,
+                  side: const BorderSide(
+                      style: BorderStyle.solid,
+                      color: Color.fromARGB(255, 6, 97, 26))),
+              //shadowColor: Colors.white,
               margin: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
@@ -317,9 +315,12 @@ class AppHome extends StatelessWidget {
                             itemCount: snapshot.data!.length,
                             itemBuilder: (context, index) {
                               return Card(
+                                elevation: 10,
+                                surfaceTintColor: Colors.amber,
+                                shadowColor: Colors.white,
                                 child: InkWell(
                                   hoverColor:
-                                      const Color.fromARGB(255, 17, 65, 3),
+                                      const Color.fromARGB(255, 69, 126, 52),
                                   onTap: () {
                                     Navigator.push(
                                         context,

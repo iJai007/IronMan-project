@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'IronMan',
-      theme: Dataoftheme().oldTheme(context),
+      theme: Dataoftheme().oldThemeLight(context),
       home: const Home(),
     );
   }

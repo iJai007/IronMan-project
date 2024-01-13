@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const jsonwebtoken = require('jsonwebtoken');
 const jwt = require('./../middlewares/jwt');
 const { json } = require('express');
+const UserModel = require('../models/UserModel');
 
 
 router.post("/createShop", async function(req, res) {
@@ -51,6 +52,34 @@ router.post("/placeOrder", async function(req, res) {
         res.json({ success: true, data: newOrder });
     });
 });
+
+router.post("/createUser", async function(req, res) {
+    const userData = req.body.Data;
+    const OTP = req.body.OTP;
+    if(OTP == '000000'){
+    // Create the JWT Token
+    const token = await jsonwebtoken.sign({ Name: userData.Name }, "thisismysecretkey");
+    userData.token = token;
+
+    const newUser = new UserModel(userData);
+    await newUser.save(function(err) {
+        if(err) {
+            res.json({ success: false, error: err });
+            console.log("User not created");
+            return;
+        }
+        console.log("User created");
+        res.json({ success: true, data: newUser });
+    });}
+    else{
+        res.json({success : false});
+    }
+});
+
+router.post("/getOTP", function(req,res) {
+    const num = req.body.num;
+    
+})
 
 router.post("/login", async function(req, res) {
     const id = req.body.Docid;

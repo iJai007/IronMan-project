@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ironman/cart.dart';
 import 'package:ironman/models/ordermodel.dart';
+import 'package:ironman/snack.dart';
 
 import 'models/shopmodel.dart';
 
@@ -25,6 +26,7 @@ class _OrderState extends State<Order> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 250, 249, 246),
       floatingActionButton: FloatingActionButton.extended(
         icon: const Icon(
           Icons.send_rounded,
@@ -32,15 +34,21 @@ class _OrderState extends State<Order> {
         label: const Text('Place Order'),
         isExtended: true,
         onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => Cart(
-                    selected: widget.selected,
-                    shop: widget.shop.Name,
-                    address: widget.shop.Area,
-                    order: widget.order),
-              ));
+          if (widget.order.isNotEmpty) {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Cart(
+                      selected: widget.selected,
+                      shop: widget.shop.Name,
+                      address: widget.shop.Area,
+                      order: widget.order),
+                ));
+          } else {
+            SnackBar snackBar =
+                const SnackBar(content: Text('Add item to proceed'));
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          }
         },
       ),
       appBar: AppBar(
@@ -51,6 +59,10 @@ class _OrderState extends State<Order> {
         itemBuilder: (context, i) {
           widget.open.add(true);
           return Card(
+            surfaceTintColor: Colors.amber,
+            elevation: 10,
+            shadowColor: const Color.fromARGB(115, 255, 193, 7),
+            color: const Color.fromARGB(0, 255, 255, 255),
             child: Column(
               children: [
                 InkWell(
@@ -78,6 +90,7 @@ class _OrderState extends State<Order> {
                       ],
                     )),
                 ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: widget.shop.Cost.values
                       .elementAt(i)
@@ -104,13 +117,13 @@ class _OrderState extends State<Order> {
                           child: Text(
                               'Cost:${widget.shop.Cost.values.elementAt(i).values.elementAt(index)}', //'Cost:${cost[index]}',
                               style: const TextStyle(
-                                  color: Colors.white,
+                                  color: Colors.black,
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold)),
                         ),
                         trailing: DropdownMenu<int>(
                           inputDecorationTheme: const InputDecorationTheme(
-                              fillColor: Colors.green),
+                              fillColor: Colors.amberAccent),
                           menuHeight: 200,
                           onSelected: (value) {
                             if (value != null) {

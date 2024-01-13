@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ironman/appHome.dart';
-import 'package:ironman/logsign.dart';
+import 'package:ironman/SignupLogin/logsign.dart';
+import 'package:ironman/SignupLogin/signup.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -49,11 +50,21 @@ class Home extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const AppHome(),
+                              builder: (context) => Signup(),
                             ));
                       },
                       icon: const Icon(Icons.app_registration),
                       label: const Text('Sign UP')),
+                  ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const AppHome(),
+                            ));
+                      },
+                      icon: const Icon(Icons.home),
+                      label: const Text('Home')),
                 ],
               )
             ],

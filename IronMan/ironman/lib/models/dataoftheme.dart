@@ -201,4 +201,75 @@ class Dataoftheme {
       useMaterial3: true,
     );
   }
+
+  ThemeData oldThemeLightnew(context) {
+    return ThemeData(
+      textButtonTheme: const TextButtonThemeData(
+          style: ButtonStyle(
+              padding: MaterialStatePropertyAll(EdgeInsets.all(8.0)),
+              foregroundColor: MaterialStatePropertyAll(Colors.black),
+              backgroundColor: MaterialStatePropertyAll(Colors.white))),
+      inputDecorationTheme: InputDecorationTheme(
+          constraints:
+              BoxConstraints(maxWidth: MediaQuery.sizeOf(context).width / 1.2),
+          contentPadding: const EdgeInsets.all(15.0),
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8.0),
+              borderSide: const BorderSide(color: Colors.white, width: 2.0)),
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8.0),
+              borderSide: const BorderSide(color: Colors.white))),
+      floatingActionButtonTheme: const FloatingActionButtonThemeData(
+        foregroundColor: Colors.black,
+        backgroundColor: Color.fromARGB(123, 255, 193, 7),
+      ),
+      listTileTheme: const ListTileThemeData(
+          titleAlignment: ListTileTitleAlignment.center),
+      dropdownMenuTheme: DropdownMenuThemeData(
+        inputDecorationTheme: InputDecorationTheme(
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8.0),
+              borderSide: const BorderSide(color: Colors.black)),
+          filled: true,
+          isDense: true,
+          fillColor: const Color.fromARGB(255, 17, 65, 3),
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20),
+              borderSide: const BorderSide(
+                  color: Colors.black, width: 2, style: BorderStyle.solid)),
+        ),
+        menuStyle: MenuStyle(
+            surfaceTintColor: MaterialStateProperty.all(
+              Colors.white,
+            ),
+            side: MaterialStateProperty.all(const BorderSide(
+              color: Color.fromARGB(255, 17, 65, 3),
+            )),
+            elevation: MaterialStateProperty.all(6),
+            shadowColor: MaterialStateProperty.all(Colors.black),
+            backgroundColor: MaterialStateProperty.all(
+              const Color.fromARGB(115, 255, 193, 7),
+            ),
+            shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20)))),
+        textStyle:
+            const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+      ),
+      drawerTheme: const DrawerThemeData(
+          backgroundColor: Colors.white, surfaceTintColor: Colors.green),
+      cardTheme: const CardTheme(
+        surfaceTintColor: Colors.amber,
+        elevation: 10,
+        shadowColor: Color.fromARGB(115, 255, 193, 7),
+        color: Color.fromARGB(0, 255, 255, 255),
+      ),
+      scaffoldBackgroundColor: const Color.fromARGB(255, 250, 249, 246),
+      colorScheme: const ColorScheme.light(
+          background: Color.fromARGB(255, 255, 255, 255)),
+      appBarTheme: const AppBarTheme(
+          backgroundColor: Color.fromARGB(255, 0, 74, 2),
+          foregroundColor: Colors.white),
+      useMaterial3: true,
+    );
+  }
 }

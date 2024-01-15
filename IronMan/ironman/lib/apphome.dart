@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:ironman/OrderPages/order.dart';
 import 'package:ironman/models/shopmodel.dart';
 import 'package:ironman/mongoconnect.dart';
+import 'package:ironman/profile.dart';
 import 'package:ironman/shop.dart';
-import 'package:ironman/order.dart';
 
 class AppHome extends StatelessWidget {
   const AppHome({super.key});
@@ -19,7 +20,13 @@ class AppHome extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Profile(),
+                  ));
+            },
             child: Card(
               margin: const EdgeInsets.all(0),
               child: Column(
@@ -296,7 +303,7 @@ class AppHome extends StatelessWidget {
                   side: const BorderSide(
                       style: BorderStyle.solid,
                       color: Color.fromARGB(255, 6, 97, 26))),
-              //shadowColor: Colors.white,
+              shadowColor: Colors.white,
               margin: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
@@ -318,6 +325,7 @@ class AppHome extends StatelessWidget {
                                 elevation: 10,
                                 surfaceTintColor: Colors.amber,
                                 shadowColor: Colors.white,
+                                color: const Color.fromARGB(64, 255, 193, 7),
                                 child: InkWell(
                                   hoverColor:
                                       const Color.fromARGB(255, 69, 126, 52),

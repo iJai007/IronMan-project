@@ -5,7 +5,7 @@ import 'package:ironman/apphome.dart';
 import 'package:ironman/models/ordermodel.dart';
 import 'package:ironman/models/shopmodel.dart';
 import 'package:ironman/mongoconnect.dart';
-import 'package:ironman/pay.dart';
+import 'package:ironman/OrderPages/pay.dart';
 
 class Cart extends StatefulWidget {
   Map<String, Map<String, int>> selected;
@@ -144,8 +144,8 @@ class _CartState extends State<Cart> {
                                       MainAxisAlignment.spaceAround,
                                   children: [
                                     Card(
-                                      color: const Color.fromARGB(
-                                          123, 255, 193, 7),
+                                      color: Colors
+                                          .green, // const Color.fromARGB(123, 255, 193, 7),
                                       elevation: 10,
                                       child: OverflowBar(
                                         children: [

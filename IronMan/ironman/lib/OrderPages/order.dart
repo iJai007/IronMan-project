@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:ironman/cart.dart';
+import 'package:ironman/OrderPages/cart.dart';
 import 'package:ironman/models/ordermodel.dart';
 import 'package:ironman/snack.dart';
 
-import 'models/shopmodel.dart';
+import '../models/shopmodel.dart';
 
 class Order extends StatefulWidget {
   /*late List<TextEditingController> te;

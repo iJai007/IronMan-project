@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class LogSign extends StatelessWidget {
   String val;
@@ -18,13 +19,16 @@ class LogSign extends StatelessWidget {
         width: MediaQuery.sizeOf(context).width,
         height: MediaQuery.sizeOf(context).height,
         child: Card(
-            margin: EdgeInsets.all(15.0),
+            margin: const EdgeInsets.all(15.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextField(
-                  inputFormatters: [],
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                    LengthLimitingTextInputFormatter(10)
+                  ],
                   decoration: const InputDecoration(
                       label: Text('Phone Number'),
                       contentPadding: EdgeInsets.all(8.0)),
@@ -41,8 +45,12 @@ class LogSign extends StatelessWidget {
                   height: 50,
                 ),
                 TextField(
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                    LengthLimitingTextInputFormatter(6)
+                  ],
                   decoration: const InputDecoration(
-                      label: Text('Password'),
+                      label: Text('Enter OTP'),
                       contentPadding: EdgeInsets.all(8.0)),
                   controller: te2,
                 ),

@@ -263,7 +263,8 @@ class Dataoftheme {
         shadowColor: Color.fromARGB(115, 255, 193, 7),
         color: Color.fromARGB(0, 255, 255, 255),
       ),
-      scaffoldBackgroundColor: const Color.fromARGB(255, 250, 249, 246),
+      scaffoldBackgroundColor: const /*new color*/ Color.fromARGB(255, 233, 214,
+          161), // original colorconst Color.fromARGB(255, 250, 249, 246),
       colorScheme: const ColorScheme.light(
           background: Color.fromARGB(255, 255, 255, 255)),
       appBarTheme: const AppBarTheme(

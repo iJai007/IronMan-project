@@ -85,10 +85,11 @@ class AppHome extends StatelessWidget {
         ],
       )),
       appBar: AppBar(
-        title: const Icon(
+        title: const Text(
+            "IronMan"), /*const Icon(
           Icons.iron_rounded,
           size: 50,
-        ),
+        ),*/
       ),
       body: SingleChildScrollView(
         child: Column(

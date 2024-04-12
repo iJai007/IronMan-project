@@ -4,10 +4,12 @@ import 'package:http/http.dart' as http;
 
 import 'package:ironman/models/shopmodel.dart';
 
+//http://localhost:5000  old url
+// https://lmdb.loca.lt localtunnel url
 class Mongoconnect {
   Future<List<Shopmodel>> connect() async {
     var res =
-        await http.post(Uri.parse('http://localhost:5000/api/shops/getShop'));
+        await http.post(Uri.parse('https://lmdb.loca.lt/api/shops/getShop'));
     if (res.statusCode == 200) {
       List<dynamic> jsonData = json.decode(res.body);
       List<Shopmodel> shops =
@@ -20,7 +22,7 @@ class Mongoconnect {
 
   Future<bool> saveOrder(order) async {
     var res = await http.post(
-        Uri.parse('http://localhost:5000/api/shops/placeOrder'),
+        Uri.parse('https://lmdb.loca.lt/api/shops/placeOrder'),
         headers: {HttpHeaders.contentTypeHeader: 'application/json'},
         body: order);
     if (res.statusCode == 200) {
@@ -32,7 +34,7 @@ class Mongoconnect {
 
   Future<bool> saveUser(User, OTP) async {
     var res = await http.post(
-        Uri.parse('http://localhost:5000/api/shops/createUser'),
+        Uri.parse('https://lmdb.loca.lt/api/shops/createUser'),
         headers: {HttpHeaders.contentTypeHeader: 'application/json'},
         body: json.encode({'Data': User, 'OTP': OTP}));
     if (res.statusCode == 200) {

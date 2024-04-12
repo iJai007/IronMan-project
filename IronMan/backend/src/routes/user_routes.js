@@ -42,7 +42,7 @@ router.post("/placeOrder", async function(req, res) {
     orderData.token = token;
 
     const newOrder = new orderModel(orderData);
-    await newOrder.save(function(err) {
+    /*await newOrder.save(function(err) {
         if(err) {
             res.json({ success: false, error: err });
             console.log("Order not created");
@@ -50,7 +50,15 @@ router.post("/placeOrder", async function(req, res) {
         }
         console.log("Order created");
         res.json({ success: true, data: newOrder });
-    });
+    });*/
+    try{ 
+        let output = await newOrder.save()
+        console.log(output)
+        res.json({ success: false, error: err });
+    }
+    catch(err){
+        res.json({ success: false, error: err })
+    }
 });
 
 router.post("/createUser", async function(req, res) {

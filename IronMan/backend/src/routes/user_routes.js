@@ -6,7 +6,12 @@ const jsonwebtoken = require('jsonwebtoken');
 const jwt = require('./../middlewares/jwt');
 const { json } = require('express');
 const UserModel = require('../models/UserModel');
+const OrderModel = require('../models/OrderModel');
+const mongoose = require('mongoose');
+const { EventEmitter } = require('events');
 
+const eventEmitter = new EventEmitter(); 
+const clients = new Map();
 
 router.post("/createShop", async function(req, res) {
     const shopData = req.body;
@@ -33,12 +38,13 @@ router.post("/getShop", async function(req, res) {
     res.json( foundShops );
     console.log("Shops Found");
 });
-
+/*
 router.post("/placeOrder", async function(req, res) {
     const orderData =  req.body;
-
+    console.log(orderData);
     // Create the JWT Token
     const token = await jsonwebtoken.sign({ Name: orderData.UserID }, "thisismysecretkey");
+    console.log(token);
     orderData.token = token;
 
     const newOrder = new orderModel(orderData);
@@ -50,15 +56,138 @@ router.post("/placeOrder", async function(req, res) {
         }
         console.log("Order created");
         res.json({ success: true, data: newOrder });
-    });*/
+    });
     try{ 
         let output = await newOrder.save()
         console.log(output)
-        res.json({ success: false, error: err });
+        const shopName = orderData.ShopName
+        if(!shopName) {
+            res.status(400).json({ success: false, error: 'UserID is required' });
+            return;
+          }
+          const client = clients.get(shopName);
+          console.log(client+'me')
+          if (client) {
+            client.write(`data: ${JSON.stringify({ message: 'New order placed'})}\n\n`);
+            res = client.res;
+            console.log(client.res)
+            res.json({'newOrder':'true'});
+            console.log(`data: ${JSON.stringify({ message: 'New order placed'})}\n\n`)
+        }
+        res.json({ success: true});
     }
     catch(err){
         res.json({ success: false, error: err })
     }
+});
+router.get('/events', (req,res)=>{
+    const shopName = req.query.shopName;
+    if (!shopName) {
+        res.status(400).end('userId parameter is required');
+        return;
+      }
+    
+    res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+  clients.set(shopName, res);
+      console.log(shopName)
+  // Clean up when client disconnects
+  req.on('close', () => {
+    console.log(shopName + 'disconnected')
+    clients.delete(shopName);
+
+  });
+
+});*/ //mycode
+
+router.get('/events', (req, res) => {
+    const shopName = req.query.shopName;
+
+    // Check if shopName is provided
+    if (!shopName) {
+        res.status(400).end('ShopName parameter is required');
+        return;
+    }
+
+    // Set headers for SSE
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Connection', 'keep-alive');
+
+    // Store the response object (res) in the clients map
+    clients.set(shopName, res);
+    console.log(shopName)
+
+    // Clean up when client disconnects
+    req.on('close', () => {
+        console.log(shopName + ' disconnected');
+        clients.delete(shopName);
+    });
+});
+
+router.post("/placeOrder", async function(req, res) {
+    const orderData = req.body;
+
+    // Create a new order document
+    const newOrder = new orderModel(orderData);
+    
+    try { 
+        let output = await newOrder.save();
+        //console.log(output);
+
+        const shopName = orderData.ShopName;
+        console.log(shopName)
+        // Check if shopName is provided
+        if (!shopName) {
+            res.status(400).json({ success: false, error: 'ShopName is required' });
+            return;
+        }
+
+        // Get the client corresponding to the shopName from the clients map
+        const client = clients.get(shopName);
+
+        console.log('here1'+ clients )
+        // Check if client is found
+        if (client) {
+            // Send SSE message to the client
+            
+            console.log('here' )
+            client.json('New Order Placed');
+        }
+
+        // Send response to the client who placed the order
+        res.json({ success: true });
+    } catch(err) {
+        res.json({ success: false, error: err });
+    }
+});
+
+
+router.post("/getOrder", async function(req, res) {
+    const shopName = req.body.shopData
+    const orders = await orderModel.find({'ShopName':shopName});
+    res.json( orders );
+    console.log("Shops Found");
+    
+});
+
+router.post("/updateOrderStatus", async function(req,res){
+    const orderStatus = req.body.status;
+    const OrderID = req.body.orderNumber;
+    //const Order = req.body.order
+   //const updateOrder = new OrderModel(orderData);
+   console.log('In route')
+   try{
+    console.log('in try')
+    let output = await orderModel.updateOne({'orderNumber':OrderID},{$set : {OrderStatus:orderStatus}})
+    console.log('success '+ output)
+    res.json({success :true})
+   }
+   catch(err){
+
+    res.json({success: false, error: err})
+   }
 });
 
 router.post("/createUser", async function(req, res) {
@@ -88,7 +217,6 @@ router.post("/getOTP", function(req,res) {
     const num = req.body.num;
     
 })
-
 router.post("/login", async function(req, res) {
     const id = req.body.Docid;
     const password = req.body.DocPass;

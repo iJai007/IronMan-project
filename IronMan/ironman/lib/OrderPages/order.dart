@@ -149,6 +149,7 @@ class _OrderState extends State<Order> {
                                 }
                                 if (!there) {
                                   widget.order.add(Ordermodel(
+                                      orderNumber: '',
                                       cost: widget.shop.Cost.values
                                           .elementAt(i)
                                           .values

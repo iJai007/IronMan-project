@@ -16,7 +16,8 @@ class Cart extends StatefulWidget {
   String UserID = 'iJ007';
   Map<String, Map<String, dynamic>> orderData = {};
   List<Ordermodel> order = [
-    Ordermodel(cost: '10', item: 'Shirt', qty: 5, service: 'Iron')
+    Ordermodel(
+        cost: '10', item: 'Shirt', qty: 5, service: 'Iron', orderNumber: '1111')
   ]; //delete later for debugging
   Cart(
       {super.key,
@@ -52,18 +53,34 @@ class _CartState extends State<Cart> {
     return Scaffold(
         floatingActionButton: FloatingActionButton.extended(
             onPressed: () async {
+              //test new code this works don't delete
               for (var element in widget.order) {
+                if (!widget.orderData.containsKey(element.service)) {
+                  widget.orderData[element.service] = {};
+                }
+                widget.orderData[element.service]![element.item] = element.qty;
+              }
+
+              /*for (var element in widget.order) {
                 widget.orderData.addAll({
                   element.service: {element.item: element.qty}
                 });
-              }
+              }*/ //old code can be deleted later
               var res = await Mongoconnect().saveOrder(json.encode({
+                'orderNumber': widget.UserID +
+                    DateTime.now().day.toString() +
+                    DateTime.now().month.toString() +
+                    DateTime.now().year.toString() +
+                    DateTime.now().hour.toString() +
+                    DateTime.now().minute.toString() +
+                    DateTime.now().second.toString(),
                 'UserID': widget.UserID,
                 'UserName': widget.UserName,
                 'OrderDateTime': DateTime.now().toString(),
                 'Services': widget.orderData,
                 'ShopName': widget.shop,
-                'Cost': widget.total.toString()
+                'OrderStatus': 'Placed',
+                'Cost': getTotal()
               }));
               (res)
                   ? (next())
@@ -110,10 +127,10 @@ class _CartState extends State<Cart> {
                     double.parse(widget.order[index].cost).toDouble();
 
                 return Card(
-                    surfaceTintColor: Color.fromARGB(184, 234, 208, 95),
+                    surfaceTintColor: const Color.fromARGB(184, 234, 208, 95),
                     shadowColor: Colors.white,
                     elevation: 10,
-                    color: Color.fromARGB(184, 234, 208, 95),
+                    color: const Color.fromARGB(184, 234, 208, 95),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
@@ -132,7 +149,7 @@ class _CartState extends State<Cart> {
                                   color: Colors.white,
                                   child: Text(
                                     'Service : ${widget.order[index].service}\nCost : ${widget.order[index].cost} per unit ',
-                                    style: TextStyle(fontSize: 15),
+                                    style: const TextStyle(fontSize: 15),
                                   ))
                             ],
                           ),

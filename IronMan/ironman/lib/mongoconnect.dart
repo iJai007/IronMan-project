@@ -21,8 +21,7 @@ class Mongoconnect {
   }
 
   Future<bool> saveOrder(order) async {
-    var res = await http.post(
-        Uri.parse('http://localhost:5000/api/shops/placeOrder'),
+    var res = await http.post(Uri.parse('$url1/api/shops/placeOrder'),
         headers: {HttpHeaders.contentTypeHeader: 'application/json'},
         body: order);
     if (res.statusCode == 200) {

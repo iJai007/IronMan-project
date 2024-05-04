@@ -117,7 +117,6 @@ router.get('/events', (req, res) => {
 
     // Store the response object (res) in the clients map
     clients.set(shopName, res);
-    console.log(shopName)
 
     // Clean up when client disconnects
     req.on('close', () => {
@@ -173,19 +172,13 @@ router.post("/getOrder", async function(req, res) {
 });
 
 router.post("/updateOrderStatus", async function(req,res){
-    const orderStatus = req.body.status;
-    const OrderID = req.body.orderNumber;
-    //const Order = req.body.order
-   //const updateOrder = new OrderModel(orderData);
-   console.log('In route')
+    const orderData = req.body.data;
+    const id = req.body.id;
+   const updateOrder = new OrderModel(orderData);
    try{
-    console.log('in try')
-    let output = await orderModel.updateOne({'orderNumber':OrderID},{$set : {OrderStatus:orderStatus}})
-    console.log('success '+ output)
-    res.json({success :true})
+    let output = await updateOrder.updateOne({'_id':id},orderData)
    }
    catch(err){
-
     res.json({success: false, error: err})
    }
 });

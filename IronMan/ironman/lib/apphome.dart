@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:ironman/OrderPages/order.dart';
+import 'package:ironman/locate.dart';
 import 'package:ironman/models/shopmodel.dart';
 import 'package:ironman/mongoconnect.dart';
 import 'package:ironman/profile.dart';
 import 'package:ironman/shop.dart';
+import 'package:geolocator/geolocator.dart';
 
 class AppHome extends StatelessWidget {
   const AppHome({super.key});
   Future<List<Shopmodel>> getData() async {
     List<Shopmodel> shops = await Mongoconnect().connect();
     return shops;
+  }
+
+  Future<Position> getLocation() async {
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    return position;
   }
 
   @override
@@ -375,6 +383,9 @@ class AppHome extends StatelessWidget {
                 ],
               ),
             ),
+            Card(
+              child: Text('Location:${Locate().determinePosition()}'),
+            )
           ],
         ),
       ),

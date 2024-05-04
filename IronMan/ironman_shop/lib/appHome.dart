@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:ironman_shop/models/ordermodel.dart';
 import 'package:ironman_shop/mongoconnect.dart';
+import 'package:ironman_shop/orderDetails.dart';
 
 class AppHome extends StatefulWidget {
   const AppHome({Key? key}) : super(key: key);
@@ -41,7 +42,7 @@ class _AppHomeState extends State<AppHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('ShopName')),
+      appBar: AppBar(title: const Text('Jaideep Cleaners')),
       body: RefreshIndicator(
         triggerMode: RefreshIndicatorTriggerMode.onEdge,
         onRefresh: _refreshData,
@@ -58,7 +59,8 @@ class _AppHomeState extends State<AppHome> {
                   itemCount: orderData.length,
                   itemBuilder: (context, index) {
                     var len = orderData.length;
-                    if (orderData[len - index - 1].orderStatus != 'Rejected') {
+                    if (orderData[len - index - 1].orderStatus != 'Rejected' &&
+                        orderData[len - index - 1].orderStatus != 'Completed') {
                       return Card(
                         child: ListTile(
                           isThreeLine: true,
@@ -118,23 +120,24 @@ class _AppHomeState extends State<AppHome> {
                                                           .orderStatus,
                                                       orderData[len - index - 1]
                                                           .orderNumber);
-                                              /* var res = await Mongoconnect().saveOrder(json.encode({
-                'orderNumber': widget.UserID +
-                    DateTime.now().day.toString() +
-                    DateTime.now().month.toString() +
-                    DateTime.now().year.toString() +
-                    DateTime.now().hour.toString() +
-                    DateTime.now().minute.toString() +
-                    DateTime.now().second.toString(),
-                'UserID': widget.UserID,
-                'UserName': widget.UserName,
-                'OrderDateTime': DateTime.now().toString(),
-                'Services': widget.orderData,
-                'ShopName': widget.shop,
-                'OrderStatus': 'Placed',
-                'Cost': getTotal()
-              })); */
-                                            } else {}
+                                            } else if (orderData[
+                                                        len - index - 1]
+                                                    .orderStatus ==
+                                                'Accepted') {
+                                              setState(() {
+                                                orderData[len - index - 1]
+                                                    .orderStatus = 'Completed';
+                                              });
+                                              /*var updated = await Mongoconnect()
+                                              .updateOrder(
+                                                  orderData[len - index - 1]);*/
+                                              var res = await Mongoconnect()
+                                                  .updateOrder(
+                                                      orderData[len - index - 1]
+                                                          .orderStatus,
+                                                      orderData[len - index - 1]
+                                                          .orderNumber);
+                                            }
                                           },
                                           icon: const Icon(Icons.check),
                                           label: (orderData[len - index - 1]
@@ -182,7 +185,18 @@ class _AppHomeState extends State<AppHome> {
                                                           .orderStatus,
                                                       orderData[len - index - 1]
                                                           .orderNumber);
-                                            } else {}
+                                            } else {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        OrderDetails(
+                                                            order: orderData[
+                                                                len -
+                                                                    index -
+                                                                    1]),
+                                                  ));
+                                            }
                                           },
                                           icon: (orderData[len - index - 1]
                                                       .orderStatus ==

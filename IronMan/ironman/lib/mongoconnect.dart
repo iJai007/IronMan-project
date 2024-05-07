@@ -31,6 +31,10 @@ class Mongoconnect {
     }
   }
 
+/*Future<String> loginStatus() async {
+  var
+}*/
+
   Future<bool> saveUser(User, OTP) async {
     var res = await http.post(Uri.parse('$url1/api/shops/createUser'),
         headers: {HttpHeaders.contentTypeHeader: 'application/json'},

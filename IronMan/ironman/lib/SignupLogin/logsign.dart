@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:ironman/apphome.dart';
 
 class LogSign extends StatelessWidget {
+  Future<bool> save() async {
+    const storage = FlutterSecureStorage();
+    storage.write(key: 'loginStatus', value: 'true');
+    return true;
+  }
+
   String val;
   LogSign({super.key, required this.val});
 
@@ -59,9 +67,15 @@ class LogSign extends StatelessWidget {
                 ),
                 ElevatedButton.icon(
                     onPressed: () {
+                      save();
                       SnackBar snackBar =
                           SnackBar(content: Text(val + te.text + te.text));
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const AppHome(),
+                          ));
                     },
                     icon: const Icon(Icons.login_rounded),
                     label: Text(val))

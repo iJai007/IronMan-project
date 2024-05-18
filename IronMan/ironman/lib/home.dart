@@ -23,7 +23,7 @@ class Home extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const AppHome(),
+              builder: (context) => AppHome(),
             ));
       },
     );
@@ -99,7 +99,7 @@ class Home extends StatelessWidget {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => const AppHome(),
+                                      builder: (context) => AppHome(),
                                     ));
                               },
                               icon: const Icon(Icons.home),
@@ -163,7 +163,7 @@ class Home extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => const AppHome(),
+                                    builder: (context) => AppHome(),
                                   ));
                             },
                             icon: const Icon(Icons.home),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 Widget listbuild(list1, te1, srv, qty, list2, te, context) {
-  return Container(
+  return SizedBox(
     height: 200,
     width: MediaQuery.sizeOf(context).width,
     child: ListView.builder(

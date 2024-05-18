@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:ironman_shop/models/ordermodel.dart';
 import 'package:ironman_shop/mongoconnect.dart';
 import 'package:ironman_shop/orderDetails.dart';
+import 'package:ironman_shop/prevOrder.dart';
+import 'package:ironman_shop/updateServices.dart';
 
 class AppHome extends StatefulWidget {
   const AppHome({Key? key}) : super(key: key);
@@ -42,6 +44,87 @@ class _AppHomeState extends State<AppHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          InkWell(
+            onTap: () {
+              /*Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Profile(),
+                  ));*/
+            },
+            child: Card(
+              margin: const EdgeInsets.all(0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Icon(
+                    Icons.account_circle,
+                    size: MediaQuery.of(context).size.width / 1.7,
+                  ),
+                  const Text('Profile')
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 25,
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const PrevOrder(),
+                  ));
+            },
+            child: const Text(
+              'Previous Order',
+              style: TextStyle(
+                color: Color.fromARGB(255, 9, 75, 11),
+                fontSize: 20,
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 25,
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const UpdateServices(),
+                  ));
+            },
+            child: const Text(
+              'Services',
+              style: TextStyle(
+                color: Color.fromARGB(255, 9, 75, 11),
+                fontSize: 20,
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 25,
+          ),
+          TextButton(
+            onPressed: () {},
+            child: const Text(
+              'Log Out',
+              style: TextStyle(
+                color: Color.fromARGB(255, 9, 75, 11),
+                fontSize: 20,
+              ),
+            ),
+          )
+        ],
+      )),
       appBar: AppBar(title: const Text('Jaideep Cleaners')),
       body: RefreshIndicator(
         triggerMode: RefreshIndicatorTriggerMode.onEdge,

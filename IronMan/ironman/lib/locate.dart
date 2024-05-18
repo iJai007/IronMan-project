@@ -41,6 +41,7 @@ class Locate {
     // continue accessing the position of the device.
     Position pos = await Geolocator.getCurrentPosition();
     //Geolocator.distanceBetween(startLatitude, startLongitude, endLatitude, endLongitude)
+    //double  pos2 = Geolocator.distanceBetween( '12°57'47.1"N' ,77°32'14.8"E,12°57'43.4"N , 77°32'13.3"E)
     return pos;
   }
 }

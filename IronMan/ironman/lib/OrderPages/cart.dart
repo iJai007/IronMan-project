@@ -35,7 +35,7 @@ class _CartState extends State<Cart> {
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const AppHome(),
+          builder: (context) => AppHome(),
         ));
   }
 
@@ -51,44 +51,46 @@ class _CartState extends State<Cart> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: FloatingActionButton.extended(
-            onPressed: () async {
-              //test new code this works don't delete
-              for (var element in widget.order) {
-                if (!widget.orderData.containsKey(element.service)) {
-                  widget.orderData[element.service] = {};
-                }
-                widget.orderData[element.service]![element.item] = element.qty;
-              }
+        floatingActionButton: (widget.order.isNotEmpty)
+            ? FloatingActionButton.extended(
+                onPressed: () async {
+                  //test new code this works don't delete
+                  for (var element in widget.order) {
+                    if (!widget.orderData.containsKey(element.service)) {
+                      widget.orderData[element.service] = {};
+                    }
+                    widget.orderData[element.service]![element.item] =
+                        element.qty;
+                  }
 
-              /*for (var element in widget.order) {
+                  /*for (var element in widget.order) {
                 widget.orderData.addAll({
                   element.service: {element.item: element.qty}
                 });
               }*/ //old code can be deleted later
-              var res = await Mongoconnect().saveOrder(json.encode({
-                'orderNumber': widget.UserID +
-                    DateTime.now().day.toString() +
-                    DateTime.now().month.toString() +
-                    DateTime.now().year.toString() +
-                    DateTime.now().hour.toString() +
-                    DateTime.now().minute.toString() +
-                    DateTime.now().second.toString(),
-                'UserID': widget.UserID,
-                'UserName': widget.UserName,
-                'OrderDateTime': DateTime.now().toString(),
-                'Services': widget.orderData,
-                'ShopName': widget.shop,
-                'OrderStatus': 'Placed',
-                'Cost': getTotal()
-              }));
-              (res)
-                  ? (next())
-                  : (const SnackBar(
-                      content: Text('Error Saving Please Retry')));
+                  var res = await Mongoconnect().saveOrder(json.encode({
+                    'orderNumber': widget.UserID +
+                        DateTime.now().day.toString() +
+                        DateTime.now().month.toString() +
+                        DateTime.now().year.toString() +
+                        DateTime.now().hour.toString() +
+                        DateTime.now().minute.toString() +
+                        DateTime.now().second.toString(),
+                    'UserID': widget.UserID,
+                    'UserName': widget.UserName,
+                    'OrderDateTime': DateTime.now().toString(),
+                    'Services': widget.orderData,
+                    'ShopName': widget.shop,
+                    'OrderStatus': 'Placed',
+                    'Cost': getTotal()
+                  }));
+                  (res)
+                      ? (next())
+                      : (const SnackBar(
+                          content: Text('Error Saving Please Retry')));
 
-              //pay and proceed page
-              /*Navigator.push(
+                  //pay and proceed page
+                  /*Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => Pay(
@@ -96,112 +98,146 @@ class _CartState extends State<Cart> {
                         address: widget.address,
                         order: widget.order),
                   ));*/
-            },
-            label: SizedBox(
-              width: MediaQuery.sizeOf(context).width / 1.2,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text('Total : ${getTotal()}'),
-                  const Text('Confirm Order')
-                ],
-              ),
-            )),
+                },
+                label: SizedBox(
+                  width: MediaQuery.sizeOf(context).width / 1.2,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text('Total : ${getTotal()}'),
+                      const Text('Confirm Order')
+                    ],
+                  ),
+                ))
+            : null,
         appBar: AppBar(title: const Text('Cart')),
-        body: ListView(
-          children: [
-            Title(
-                color: Colors.white,
-                child: Text(
-                  widget.shop,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 30),
-                )),
-            Text('Shop Address: ${widget.address}'),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: widget.order.length,
-              itemBuilder: (context, index) {
-                widget.total += widget.order[index].qty *
-                    double.parse(widget.order[index].cost).toDouble();
+        body: (widget.order.isNotEmpty)
+            ? ListView(
+                children: [
+                  Title(
+                      color: Colors.white,
+                      child: Text(
+                        widget.shop,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 30),
+                      )),
+                  Text('Shop Address: ${widget.address}'),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: widget.order.length,
+                    itemBuilder: (context, index) {
+                      widget.total += widget.order[index].qty *
+                          double.parse(widget.order[index].cost).toDouble();
 
-                return Card(
-                    surfaceTintColor: const Color.fromARGB(184, 234, 208, 95),
-                    shadowColor: Colors.white,
-                    elevation: 10,
-                    color: const Color.fromARGB(184, 234, 208, 95),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Column(
-                            children: [
-                              Title(
-                                  color: Colors.white,
-                                  child: Text(
-                                    '${widget.order[index].item}',
-                                    style: TextStyle(fontSize: 25),
-                                  )),
-                              Title(
-                                  color: Colors.white,
-                                  child: Text(
-                                    'Service : ${widget.order[index].service}\nCost : ${widget.order[index].cost} per unit ',
-                                    style: const TextStyle(fontSize: 15),
-                                  ))
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
+                      return Card(
+                          surfaceTintColor:
+                              const Color.fromARGB(184, 234, 208, 95),
+                          shadowColor: Colors.white,
+                          elevation: 10,
+                          color: const Color.fromARGB(184, 234, 208, 95),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Column(
                                   children: [
-                                    Card(
-                                      color: Colors
-                                          .green, // const Color.fromARGB(123, 255, 193, 7),
-                                      elevation: 10,
-                                      child: OverflowBar(
+                                    Title(
+                                        color: Colors.white,
+                                        child: Text(
+                                          '${widget.order[index].item}',
+                                          style: TextStyle(fontSize: 25),
+                                        )),
+                                    Title(
+                                        color: Colors.white,
+                                        child: Text(
+                                          'Service : ${widget.order[index].service}\nCost : ${widget.order[index].cost} per unit ',
+                                          style: const TextStyle(fontSize: 15),
+                                        ))
+                                  ],
+                                ),
+                                Column(
+                                  children: [
+                                    Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
                                         children: [
-                                          IconButton(
-                                              onPressed: () {
-                                                setState(() {
-                                                  widget.order[index].qty--;
-                                                });
-                                              },
-                                              icon: const Icon(Icons.remove)),
-                                          Text(
-                                              widget.order[index].qty
-                                                  .toString(),
-                                              style: const TextStyle(
-                                                  fontSize: 20)),
-                                          IconButton(
-                                              onPressed: () {
-                                                setState(() {
-                                                  widget.order[index].qty++;
-                                                });
-                                              },
-                                              icon: const Icon(Icons.add)),
-                                        ],
-                                      ),
+                                          Card(
+                                            color: Colors
+                                                .green, // const Color.fromARGB(123, 255, 193, 7),
+                                            elevation: 10,
+                                            child: OverflowBar(
+                                              children: [
+                                                IconButton(
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        widget
+                                                            .order[index].qty--;
+                                                      });
+                                                    },
+                                                    icon: const Icon(
+                                                        Icons.remove)),
+                                                Text(
+                                                    widget.order[index].qty
+                                                        .toString(),
+                                                    style: const TextStyle(
+                                                        fontSize: 20)),
+                                                IconButton(
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        widget
+                                                            .order[index].qty++;
+                                                      });
+                                                    },
+                                                    icon:
+                                                        const Icon(Icons.add)),
+                                              ],
+                                            ),
+                                          ),
+                                        ]),
+                                    Text(
+                                      ('Price: ${widget.order[index].qty * double.parse(widget.order[index].cost)}  '),
+                                      style: const TextStyle(
+                                          fontSize: 25,
+                                          fontWeight: FontWeight.bold),
                                     ),
-                                  ]),
-                              Text(
-                                ('Price: ${widget.order[index].qty * double.parse(widget.order[index].cost)}  '),
-                                style: const TextStyle(
-                                    fontSize: 25, fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                        ],
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ));
+                    },
+                  ),
+                ],
+              )
+            : Center(
+                child: Card(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'Cart is Empty',
+                        style: TextStyle(fontSize: 25),
                       ),
-                    ));
-              },
-            ),
-          ],
-        ));
+                      ElevatedButton(
+                          style: const ButtonStyle(
+                              backgroundColor: MaterialStatePropertyAll(
+                                  Color.fromARGB(255, 0, 74, 2)),
+                              foregroundColor:
+                                  MaterialStatePropertyAll(Colors.white)),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text('Return Home'))
+                    ],
+                  ),
+                ),
+              )));
   }
 }

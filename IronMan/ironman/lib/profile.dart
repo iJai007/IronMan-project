@@ -14,36 +14,36 @@ class Profile extends StatelessWidget {
         shrinkWrap: true,
         padding: const EdgeInsets.all(15),
         children: [
-          Padding(
+          const Padding(
             padding: EdgeInsets.all(8.0),
             child: Text('Name',
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
           ),
-          TextField(),
-          Padding(
+          const TextField(),
+          const Padding(
             padding: EdgeInsets.all(8.0),
             child: Text('Phone',
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
           ),
-          TextField(),
-          Padding(
+          const TextField(),
+          const Padding(
             padding: EdgeInsets.all(8.0),
             child: Text('Email',
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
           ),
-          TextField(),
-          Padding(
+          const TextField(),
+          const Padding(
             padding: EdgeInsets.all(8.0),
             child: Text('Address',
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
           ),
-          TextField(),
-          Padding(
+          const TextField(),
+          const Padding(
             padding: EdgeInsets.all(8.0),
             child: Text('Area',
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
           ),
-          TextField(),
+          const TextField(),
           Padding(
             padding: const EdgeInsets.all(15.0),
             child: Row(
@@ -52,12 +52,12 @@ class Profile extends StatelessWidget {
               children: [
                 ElevatedButton.icon(
                     onPressed: () {},
-                    icon: Icon(Icons.save_rounded),
-                    label: Text('Save')),
+                    icon: const Icon(Icons.save_rounded),
+                    label: const Text('Save')),
                 ElevatedButton.icon(
                     onPressed: () {},
-                    icon: Icon(Icons.cancel_rounded),
-                    label: Text('Cancel'))
+                    icon: const Icon(Icons.cancel_rounded),
+                    label: const Text('Cancel'))
               ],
             ),
           )

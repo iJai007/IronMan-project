@@ -13,7 +13,7 @@ class Getotp extends StatelessWidget {
   Widget build(BuildContext context) {
     void next() {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const AppHome()));
+          context, MaterialPageRoute(builder: (context) => AppHome()));
     }
 
     return Scaffold(

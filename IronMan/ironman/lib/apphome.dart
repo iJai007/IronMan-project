@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:ironman/OrderPages/cart.dart';
 import 'package:ironman/OrderPages/order.dart';
+import 'package:ironman/SignupLogin/predict.dart';
 import 'package:ironman/locate.dart';
 import 'package:ironman/models/shopmodel.dart';
 import 'package:ironman/mongoconnect.dart';
@@ -7,11 +9,58 @@ import 'package:ironman/profile.dart';
 import 'package:ironman/shop.dart';
 import 'package:geolocator/geolocator.dart';
 
-class AppHome extends StatelessWidget {
-  const AppHome({super.key});
+class AppHome extends StatefulWidget {
+  AppHome({super.key});
+  String orderStatus = 'NoOrder';
+
   Future<List<Shopmodel>> getData() async {
     List<Shopmodel> shops = await Mongoconnect().connect();
     return shops;
+  }
+
+  @override
+  State<AppHome> createState() => _AppHomeState();
+}
+
+class _AppHomeState extends State<AppHome> {
+  late Future<List<Shopmodel>> _futureShopData;
+  late List<Shopmodel> shopData = [];
+  //Geolocator.distanceBetween( '12°57'47.1"N' ,77°32'14.8"E,12°57'43.4"N , 77°32'13.3"E)}
+  @override
+  void initState() {
+    _futureShopData = widget.getData();
+    super.initState();
+  }
+
+  Widget _buildStarRating({required double rating, double starSize = 24.0}) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: List.generate(5, (index) {
+        double fillRatio = 1.0;
+        if (rating < index + 1) {
+          if (rating >= index) {
+            fillRatio = rating - index;
+          } else {
+            fillRatio = 0.0;
+          }
+        }
+
+        IconData iconData;
+        if (fillRatio >= 0.75) {
+          iconData = Icons.star;
+        } else if (fillRatio >= 0.25) {
+          iconData = Icons.star_half;
+        } else {
+          iconData = Icons.star_border;
+        }
+
+        return Icon(
+          iconData,
+          size: starSize,
+          color: Colors.black45,
+        );
+      }),
+    );
   }
 
   Future<Position> getLocation() async {
@@ -32,34 +81,45 @@ class AppHome extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => Profile(),
+                    builder: (context) => const Profile(),
                   ));
             },
             child: Card(
               margin: const EdgeInsets.all(0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Icon(
-                    Icons.account_circle,
-                    size: MediaQuery.of(context).size.width / 1.7,
-                  ),
-                  const Text('Profile')
-                ],
+              child: SizedBox(
+                width: MediaQuery.sizeOf(context).width,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Icon(
+                      Icons.account_circle,
+                      size: MediaQuery.of(context).size.width / 1.7,
+                    ),
+                    const Text(
+                      'Profile',
+                      style:
+                          TextStyle(fontSize: 25, fontWeight: FontWeight.w700),
+                    )
+                  ],
+                ),
               ),
             ),
           ),
           const SizedBox(
             height: 25,
           ),
-          TextButton(
+          ElevatedButton(
+            style: const ButtonStyle(
+                backgroundColor:
+                    MaterialStatePropertyAll(Color.fromARGB(255, 9, 75, 11)),
+                foregroundColor: MaterialStatePropertyAll(Colors.white)),
             onPressed: () {},
             child: const Text(
               'Previous Order',
               style: TextStyle(
-                color: Color.fromARGB(255, 9, 75, 11),
+                //color: Color.fromARGB(255, 9, 75, 11),
                 fontSize: 20,
               ),
             ),
@@ -67,12 +127,16 @@ class AppHome extends StatelessWidget {
           const SizedBox(
             height: 25,
           ),
-          TextButton(
+          ElevatedButton(
+            style: const ButtonStyle(
+                backgroundColor:
+                    MaterialStatePropertyAll(Color.fromARGB(255, 9, 75, 11)),
+                foregroundColor: MaterialStatePropertyAll(Colors.white)),
             onPressed: () {},
             child: const Text(
               'Settings',
               style: TextStyle(
-                color: Color.fromARGB(255, 9, 75, 11),
+                //color: Color.fromARGB(255, 9, 75, 11),
                 fontSize: 20,
               ),
             ),
@@ -80,12 +144,16 @@ class AppHome extends StatelessWidget {
           const SizedBox(
             height: 25,
           ),
-          TextButton(
+          ElevatedButton(
+            style: const ButtonStyle(
+                backgroundColor:
+                    MaterialStatePropertyAll(Color.fromARGB(255, 9, 75, 11)),
+                foregroundColor: MaterialStatePropertyAll(Colors.white)),
             onPressed: () {},
             child: const Text(
               'Log Out',
               style: TextStyle(
-                color: Color.fromARGB(255, 9, 75, 11),
+                //color: Color.fromARGB(255, 9, 75, 11),
                 fontSize: 20,
               ),
             ),
@@ -99,6 +167,27 @@ class AppHome extends StatelessWidget {
           size: 50,
         ),*/
       ),
+      floatingActionButton: FloatingActionButton.extended(
+          backgroundColor: const Color.fromARGB(255, 242, 211, 98),
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Cart(
+                      selected: const {},
+                      shop: 'null',
+                      address: 'null',
+                      order: const []),
+                ));
+          },
+          label: (widget.orderStatus == 'orderPlaced')
+              ? const Text('Current Order Status : IN Progress')
+              : const Row(
+                  children: [
+                    Icon(Icons.shopping_cart),
+                    Text('Cart'),
+                  ],
+                )),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -245,7 +334,7 @@ class AppHome extends StatelessWidget {
                                   fit: BoxFit.fitHeight), //Icon(Icons.abc),
                               color: Colors.amber,
                             ),
-                            Text('data')
+                            const Text('data')
                           ]),
                       Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -262,7 +351,7 @@ class AppHome extends StatelessWidget {
                                   fit: BoxFit.fitHeight), //Icon(Icons.abc),
                               color: Colors.amber,
                             ),
-                            Text('data')
+                            const Text('data')
                           ]),
                       Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -279,7 +368,7 @@ class AppHome extends StatelessWidget {
                                   fit: BoxFit.fitHeight), //Icon(Icons.abc),
                               color: Colors.amber,
                             ),
-                            Text('data')
+                            const Text('data')
                           ]),
                       Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -290,13 +379,19 @@ class AppHome extends StatelessWidget {
                               style: const ButtonStyle(
                                   backgroundColor:
                                       MaterialStatePropertyAll(Colors.blue)),
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Predict(),
+                                    ));
+                              },
                               icon: Image.asset('lib/assests/utilityicon.png',
                                   scale: Checkbox.width / 5,
                                   fit: BoxFit.fitHeight), //Icon(Icons.abc),
                               color: Colors.amber,
                             ),
-                            Text('data')
+                            const Text('Predict')
                           ]),
                     ],
                   ),
@@ -324,11 +419,13 @@ class AppHome extends StatelessWidget {
                             fontSize: 25, fontWeight: FontWeight.bold),
                       )),
                   FutureBuilder<List<Shopmodel>>(
-                    future: getData(),
-                    builder: (context, snapshot) => (snapshot.hasData)
-                        ? ListView.builder(
+                      future: _futureShopData,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          shopData = snapshot.data!;
+                          return ListView.builder(
                             shrinkWrap: true,
-                            itemCount: snapshot.data!.length,
+                            itemCount: shopData.length,
                             itemBuilder: (context, index) {
                               return Card(
                                 elevation: 10,
@@ -343,7 +440,7 @@ class AppHome extends StatelessWidget {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => Order(
-                                                shop: snapshot.data![index])
+                                                shop: shopData.elementAt(index))
                                             //Order(shops: snapshot.data[index] ),
                                             ));
                                   },
@@ -358,18 +455,31 @@ class AppHome extends StatelessWidget {
                                         const SizedBox(
                                           width: 25,
                                         ),
-                                        Text(
-                                          snapshot.data![index].Name,
-                                          //list[index],
-                                          overflow: TextOverflow.clip,
-                                          style: const TextStyle(fontSize: 25),
-                                        )
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              shopData.elementAt(index).Name,
+                                              //list[index],
+                                              overflow: TextOverflow.clip,
+                                              style:
+                                                  const TextStyle(fontSize: 25),
+                                            ),
+                                            _buildStarRating(rating: 4),
+                                            Text(
+                                                '${shopData.elementAt(index).Area} ${Geolocator.distanceBetween(12.57471, 77.32148, 12.57434, 77.32133).truncate().toString()}m'),
+                                          ],
+                                        ),
                                       ]),
                                 ),
                               );
                             },
-                          )
-                        : const Center(
+                          );
+                        } else {
+                          return const Center(
                             child: Card(
                               child: SizedBox(
                                 height: 50,
@@ -378,8 +488,9 @@ class AppHome extends StatelessWidget {
                                     color: Colors.white, strokeWidth: 5),
                               ),
                             ),
-                          ),
-                  ),
+                          );
+                        }
+                      }),
                 ],
               ),
             ),

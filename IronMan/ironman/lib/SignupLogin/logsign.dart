@@ -74,7 +74,7 @@ class LogSign extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const AppHome(),
+                            builder: (context) => AppHome(),
                           ));
                     },
                     icon: const Icon(Icons.login_rounded),

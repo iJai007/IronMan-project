@@ -38,6 +38,14 @@ router.post("/getShop", async function(req, res) {
     res.json( foundShops );
     console.log("Shops Found");
 });
+
+router.post("/getMyShop", async function(req, res) {
+    const name = req.body.Name;
+    const foundShops = await shopModel.find({'Name':name});
+    res.json( foundShops );
+    console.log("Shops Found");
+});
+
 /*
 router.post("/placeOrder", async function(req, res) {
     const orderData =  req.body;
@@ -100,7 +108,7 @@ router.get('/events', (req,res)=>{
   });
 
 });*/ //mycode
-
+/*
 router.get('/events', (req, res) => {
     const shopName = req.query.shopName;
 
@@ -124,6 +132,48 @@ router.get('/events', (req, res) => {
         clients.delete(shopName);
     });
 });
+
+router.get('/event/deliver', (req, res) => {
+    const delName = req.query.userName;
+
+    // Check if shopName is provided
+    if (!shopName) {
+        res.status(400).end('ShopName parameter is required');
+        return;
+    }
+
+    // Set headers for SSE
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Connection', 'keep-alive');
+
+    // Store the response object (res) in the clients map
+    clients.set(shopName, res);
+
+    // Clean up when client disconnects
+    req.on('close', () => {
+        console.log(shopName + ' disconnected');
+        clients.delete(shopName);
+    });
+});
+
+app.get('/events/deliver', (req, res) => {
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Connection', 'keep-alive');
+  
+    // Listen for the 'newOrder' event and send SSE when triggered
+    const newOrderListener = (data) => {
+      res.write(`data: ${JSON.stringify(data)}\n\n`);
+    };
+    eventEmitter.on('newOrder', newOrderListener);
+  
+    // Clean up event listener when client disconnects
+    req.on('close', () => {
+      eventEmitter.removeListener('newOrder', newOrderListener);
+    });
+  });
+*/
 
 router.post("/placeOrder", async function(req, res) {
     const orderData = req.body;
@@ -172,11 +222,11 @@ router.post("/getOrder", async function(req, res) {
 });
 
 router.post("/updateOrderStatus", async function(req,res){
-    const orderData = req.body.data;
-    const id = req.body.id;
-   const updateOrder = new OrderModel(orderData);
+    const orderStatus = req.body.status;
+    const id = req.body.orderNumber;
+   //const updateOrder = new OrderModel(orderData);
    try{
-    let output = await updateOrder.updateOne({'_id':id},orderData)
+    let output = await OrderModel.updateOne({'orderNumber':id},{'OrderStatus':orderStatus})
    }
    catch(err){
     res.json({success: false, error: err})

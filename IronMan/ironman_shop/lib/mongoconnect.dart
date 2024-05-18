@@ -9,8 +9,10 @@ import 'package:ironman_shop/models/shopmodel.dart';
 // https://lmdb.loca.lt localtunnel url
 class Mongoconnect {
   Future<List<Shopmodel>> connect() async {
-    var res =
-        await http.post(Uri.parse('https://lmdb.loca.lt/api/shops/getShop'));
+    var res = await http.post(
+        Uri.parse('http://localhost:5000/api/shops/getMyShop'),
+        headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+        body: json.encode({'Name': 'Jaideep Cleaners'}));
     if (res.statusCode == 200) {
       List<dynamic> jsonData = json.decode(res.body);
       List<Shopmodel> shops =
@@ -70,6 +72,7 @@ class Mongoconnect {
         body: json.encode({'status': orderStatus, 'orderNumber': orderNumber}));
     /*const orderStatus = req.body.status;
     const OrderID = req.body.orderNumber; */
+    print(res);
     if (res.statusCode == 200) {
       return true;
     } else {

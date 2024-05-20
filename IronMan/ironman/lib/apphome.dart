@@ -8,6 +8,7 @@ import 'package:ironman/mongoconnect.dart';
 import 'package:ironman/profile.dart';
 import 'package:ironman/shop.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 
 class AppHome extends StatefulWidget {
   AppHome({super.key});
@@ -345,13 +346,21 @@ class _AppHomeState extends State<AppHome> {
                               style: const ButtonStyle(
                                   backgroundColor:
                                       MaterialStatePropertyAll(Colors.blue)),
-                              onPressed: () {},
+                              onPressed: () async {
+                                //Locate().openMaps();
+                                Position pos =
+                                    await Geolocator.getCurrentPosition();
+                                //Geolocator.distanceBetween(startLatitude, startLongitude, endLatitude, endLongitude)
+                                //double  pos2 = Geolocator.distanceBetween( '12°57'47.1"N' ,77°32'14.8"E,12°57'43.4"N , 77°32'13.3"E)
+                                MapsLauncher.launchCoordinates(
+                                    pos.latitude, pos.longitude);
+                              },
                               icon: Image.asset('lib/assests/utilityicon.png',
                                   scale: Checkbox.width / 5,
                                   fit: BoxFit.fitHeight), //Icon(Icons.abc),
                               color: Colors.amber,
                             ),
-                            const Text('data')
+                            const Text('Open Maps')
                           ]),
                       Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -494,9 +503,9 @@ class _AppHomeState extends State<AppHome> {
                 ],
               ),
             ),
-            Card(
+            /*Card(
               child: Text('Location:${Locate().determinePosition()}'),
-            )
+            )*/
           ],
         ),
       ),

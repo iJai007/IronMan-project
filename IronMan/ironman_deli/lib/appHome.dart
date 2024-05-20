@@ -55,13 +55,11 @@ class _AppHomeState extends State<AppHome> {
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: ElevatedButton.icon(
-                                      style: ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStateProperty.all(
-                                          const Color.fromARGB(255, 2, 126, 6),
+                                      style: const ButtonStyle(
+                                        backgroundColor: WidgetStatePropertyAll(
+                                          Color.fromARGB(255, 2, 126, 6),
                                         ),
-                                        foregroundColor:
-                                            MaterialStateProperty.all(
+                                        foregroundColor: WidgetStatePropertyAll(
                                           Colors.white,
                                         ),
                                       ),
@@ -129,13 +127,11 @@ class _AppHomeState extends State<AppHome> {
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: ElevatedButton.icon(
-                                    style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                        const Color.fromARGB(255, 159, 11, 0),
+                                    style: const ButtonStyle(
+                                      backgroundColor: WidgetStatePropertyAll(
+                                        Color.fromARGB(255, 159, 11, 0),
                                       ),
-                                      foregroundColor:
-                                          MaterialStateProperty.all(
+                                      foregroundColor: WidgetStatePropertyAll(
                                         Colors.white,
                                       ),
                                     ),

@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 class Dataoftheme {
   ThemeData newTheme() {
     return ThemeData(
-      textButtonTheme: TextButtonThemeData(
+      textButtonTheme: const TextButtonThemeData(
         style: ButtonStyle(
-          padding: MaterialStateProperty.all(const EdgeInsets.all(8.0)),
-          foregroundColor: MaterialStateProperty.all(Colors.black),
-          backgroundColor: MaterialStateProperty.all(Colors.white),
+          padding: WidgetStatePropertyAll(EdgeInsets.all(8.0)),
+          foregroundColor: WidgetStatePropertyAll(Colors.black),
+          backgroundColor: WidgetStatePropertyAll(Colors.white),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
@@ -40,15 +40,15 @@ class Dataoftheme {
           fontWeight: FontWeight.bold,
         ),
         menuStyle: MenuStyle(
-          fixedSize: MaterialStatePropertyAll(Size(85, 200)),
-          surfaceTintColor: MaterialStatePropertyAll(
+          fixedSize: WidgetStatePropertyAll(Size(85, 200)),
+          surfaceTintColor: WidgetStatePropertyAll(
               Colors.green), // Your preferred shade of green
-          side: MaterialStatePropertyAll(BorderSide(color: Colors.green)),
-          elevation: MaterialStatePropertyAll(6),
-          shadowColor: MaterialStatePropertyAll(Colors.black),
-          backgroundColor: MaterialStatePropertyAll(
+          side: WidgetStatePropertyAll(BorderSide(color: Colors.green)),
+          elevation: WidgetStatePropertyAll(6),
+          shadowColor: WidgetStatePropertyAll(Colors.black),
+          backgroundColor: WidgetStatePropertyAll(
               Colors.yellow), // Set your preferred shade of yellow here
-          shape: MaterialStatePropertyAll(
+          shape: WidgetStatePropertyAll(
             RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(8.0))),
           ),
@@ -67,7 +67,7 @@ class Dataoftheme {
       ),
       scaffoldBackgroundColor:
           const Color.fromARGB(255, 17, 65, 17), // Change background to white
-      colorScheme: const ColorScheme.dark(background: Colors.black),
+      colorScheme: const ColorScheme.dark(surface: Colors.black),
       appBarTheme: const AppBarTheme(
         backgroundColor: Colors.green, // Set your preferred shade of green here
       ),
@@ -79,9 +79,9 @@ class Dataoftheme {
     return ThemeData(
       textButtonTheme: const TextButtonThemeData(
           style: ButtonStyle(
-              padding: MaterialStatePropertyAll(EdgeInsets.all(8.0)),
-              foregroundColor: MaterialStatePropertyAll(Colors.black),
-              backgroundColor: MaterialStatePropertyAll(Colors.white))),
+              padding: WidgetStatePropertyAll(EdgeInsets.all(8.0)),
+              foregroundColor: WidgetStatePropertyAll(Colors.black),
+              backgroundColor: WidgetStatePropertyAll(Colors.white))),
       inputDecorationTheme: InputDecorationTheme(
           constraints:
               BoxConstraints(maxWidth: MediaQuery.sizeOf(context).width / 1.2),
@@ -109,18 +109,18 @@ class Dataoftheme {
                   color: Colors.white, width: 2, style: BorderStyle.solid)),
         ),
         menuStyle: MenuStyle(
-            surfaceTintColor: MaterialStateProperty.all(
-              const Color.fromARGB(255, 17, 65, 3),
+            surfaceTintColor: const WidgetStatePropertyAll(
+              Color.fromARGB(255, 17, 65, 3),
             ),
-            side: MaterialStateProperty.all(const BorderSide(
+            side: const WidgetStatePropertyAll(BorderSide(
               color: Color.fromARGB(255, 17, 65, 3),
             )),
-            elevation: MaterialStateProperty.all(6),
-            shadowColor: MaterialStateProperty.all(Colors.black),
-            backgroundColor: MaterialStateProperty.all(
-              const Color.fromARGB(255, 17, 65, 3),
+            elevation: const WidgetStatePropertyAll(6),
+            shadowColor: const WidgetStatePropertyAll(Colors.black),
+            backgroundColor: const WidgetStatePropertyAll(
+              Color.fromARGB(255, 17, 65, 3),
             ),
-            shape: MaterialStateProperty.all(RoundedRectangleBorder(
+            shape: WidgetStatePropertyAll(RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20)))),
         textStyle:
             const TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
@@ -129,7 +129,7 @@ class Dataoftheme {
           backgroundColor: Colors.black, surfaceTintColor: Colors.green),
       cardTheme: const CardTheme(color: Color.fromARGB(255, 22, 49, 23)),
       scaffoldBackgroundColor: Colors.black,
-      colorScheme: const ColorScheme.dark(background: Colors.black),
+      colorScheme: const ColorScheme.dark(surface: Colors.black),
       appBarTheme:
           const AppBarTheme(backgroundColor: Color.fromARGB(255, 0, 74, 2)),
       useMaterial3: true,
@@ -140,9 +140,9 @@ class Dataoftheme {
     return ThemeData(
       textButtonTheme: const TextButtonThemeData(
           style: ButtonStyle(
-              padding: MaterialStatePropertyAll(EdgeInsets.all(8.0)),
-              foregroundColor: MaterialStatePropertyAll(Colors.black),
-              backgroundColor: MaterialStatePropertyAll(Colors.white))),
+              padding: WidgetStatePropertyAll(EdgeInsets.all(8.0)),
+              foregroundColor: WidgetStatePropertyAll(Colors.black),
+              backgroundColor: WidgetStatePropertyAll(Colors.white))),
       inputDecorationTheme: InputDecorationTheme(
           constraints:
               BoxConstraints(maxWidth: MediaQuery.sizeOf(context).width / 1.2),
@@ -173,18 +173,18 @@ class Dataoftheme {
                   color: Colors.black, width: 2, style: BorderStyle.solid)),
         ),
         menuStyle: MenuStyle(
-            surfaceTintColor: MaterialStateProperty.all(
+            surfaceTintColor: const WidgetStatePropertyAll(
               Colors.white,
             ),
-            side: MaterialStateProperty.all(const BorderSide(
+            side: const WidgetStatePropertyAll(BorderSide(
               color: Color.fromARGB(255, 17, 65, 3),
             )),
-            elevation: MaterialStateProperty.all(6),
-            shadowColor: MaterialStateProperty.all(Colors.black),
-            backgroundColor: MaterialStateProperty.all(
-              const Color.fromARGB(115, 255, 193, 7),
+            elevation: const WidgetStatePropertyAll(6),
+            shadowColor: const WidgetStatePropertyAll(Colors.black),
+            backgroundColor: const WidgetStatePropertyAll(
+              Color.fromARGB(115, 255, 193, 7),
             ),
-            shape: MaterialStateProperty.all(RoundedRectangleBorder(
+            shape: WidgetStatePropertyAll(RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20)))),
         textStyle:
             const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
@@ -193,8 +193,8 @@ class Dataoftheme {
           backgroundColor: Colors.white, surfaceTintColor: Colors.green),
       //cardTheme: const CardTheme(color: Color.fromARGB(255, 255, 255, 255)),
       scaffoldBackgroundColor: const Color.fromARGB(255, 250, 249, 246),
-      colorScheme: const ColorScheme.light(
-          background: Color.fromARGB(255, 255, 255, 255)),
+      colorScheme:
+          const ColorScheme.light(surface: Color.fromARGB(255, 255, 255, 255)),
       appBarTheme: const AppBarTheme(
           backgroundColor: Color.fromARGB(255, 0, 74, 2),
           foregroundColor: Colors.white),
@@ -206,9 +206,9 @@ class Dataoftheme {
     return ThemeData(
       textButtonTheme: const TextButtonThemeData(
           style: ButtonStyle(
-              padding: MaterialStatePropertyAll(EdgeInsets.all(8.0)),
-              foregroundColor: MaterialStatePropertyAll(Colors.black),
-              backgroundColor: MaterialStatePropertyAll(Colors.white))),
+              padding: WidgetStatePropertyAll(EdgeInsets.all(8.0)),
+              foregroundColor: WidgetStatePropertyAll(Colors.black),
+              backgroundColor: WidgetStatePropertyAll(Colors.white))),
       inputDecorationTheme: InputDecorationTheme(
           constraints:
               BoxConstraints(maxWidth: MediaQuery.sizeOf(context).width / 1.2),
@@ -239,18 +239,18 @@ class Dataoftheme {
                   color: Colors.black, width: 2, style: BorderStyle.solid)),
         ),
         menuStyle: MenuStyle(
-            surfaceTintColor: MaterialStateProperty.all(
+            surfaceTintColor: const WidgetStatePropertyAll(
               Colors.white,
             ),
-            side: MaterialStateProperty.all(const BorderSide(
+            side: const WidgetStatePropertyAll(BorderSide(
               color: Color.fromARGB(255, 17, 65, 3),
             )),
-            elevation: MaterialStateProperty.all(6),
-            shadowColor: MaterialStateProperty.all(Colors.black),
-            backgroundColor: MaterialStateProperty.all(
-              const Color.fromARGB(115, 255, 193, 7),
+            elevation: const WidgetStatePropertyAll(6),
+            shadowColor: const WidgetStatePropertyAll(Colors.black),
+            backgroundColor: const WidgetStatePropertyAll(
+              Color.fromARGB(115, 255, 193, 7),
             ),
-            shape: MaterialStateProperty.all(RoundedRectangleBorder(
+            shape: WidgetStatePropertyAll(RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20)))),
         textStyle:
             const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
@@ -265,8 +265,8 @@ class Dataoftheme {
       ),
       scaffoldBackgroundColor: const /*new color*/ Color.fromARGB(255, 233, 214,
           161), // original colorconst Color.fromARGB(255, 250, 249, 246),
-      colorScheme: const ColorScheme.light(
-          background: Color.fromARGB(255, 255, 255, 255)),
+      colorScheme:
+          const ColorScheme.light(surface: Color.fromARGB(255, 255, 255, 255)),
       appBarTheme: const AppBarTheme(
           backgroundColor: Color.fromARGB(255, 0, 74, 2),
           foregroundColor: Colors.white),

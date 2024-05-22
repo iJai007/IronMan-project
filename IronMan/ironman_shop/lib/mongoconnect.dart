@@ -10,7 +10,7 @@ import 'package:ironman_shop/models/shopmodel.dart';
 class Mongoconnect {
   Future<List<Shopmodel>> connect() async {
     var res = await http.post(
-        Uri.parse('http://localhost:5000/api/shops/getMyShop'),
+        Uri.parse('https://lmdb.loca.lt/api/shops/getMyShop'),
         headers: {HttpHeaders.contentTypeHeader: 'application/json'},
         body: json.encode({'Name': 'Jaideep Cleaners'}));
     if (res.statusCode == 200) {
@@ -38,7 +38,7 @@ class Mongoconnect {
   Future<String> update() async {
     try {
       var res = await http.get(Uri.parse(
-          'http://localhost:5000/api/shops/events?shopName=Jaideep%20Cleaners'));
+          'https://lmdb.loca.lt/api/shops/events?shopName=Jaideep%20Cleaners'));
       if (res.statusCode == 200) {
         var status = json.decode(res.body);
         return status;
@@ -52,7 +52,7 @@ class Mongoconnect {
 
   Future<List<dynamic>> getOrder(shop) async {
     var res = await http.post(
-        Uri.parse('http://localhost:5000/api/shops/getOrder'),
+        Uri.parse('https://lmdb.loca.lt/api/shops/getOrder'),
         headers: {HttpHeaders.contentTypeHeader: 'application/json'},
         body: json.encode({'shopData': shop}));
     if (res.statusCode == 200) {
@@ -67,7 +67,7 @@ class Mongoconnect {
 
   Future<bool> updateOrder(orderStatus, orderNumber) async {
     var res = await http.post(
-        Uri.parse('http://localhost:5000/api/shops/updateOrderStatus'),
+        Uri.parse('https://lmdb.loca.lt/api/shops/updateOrderStatus'),
         headers: {HttpHeaders.contentTypeHeader: 'application/json'},
         body: json.encode({'status': orderStatus, 'orderNumber': orderNumber}));
     /*const orderStatus = req.body.status;

@@ -17,16 +17,16 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: Dataoftheme().oldThemeLightnew(context),
-      home: Delivery(
-        data: Ordermodel(
-            cost: '20',
+      home:
+          const AppHome(), /*Delivery(
+        data:Ordermodel(            cost: '20',
             orderNumber: '111',
             orderStatus: 'Accepted',
             service: {
               'iron': {'1': '1'}
             },
             id: 'id'),
-      ), // const AppHome(),
+      ), */
     );
   }
 }

@@ -62,7 +62,7 @@ class Delivery extends StatelessWidget {
                                 .value
                                 .entries
                                 .elementAt(i)
-                                .value,
+                                .value.toString(),
                             style: const TextStyle(
                                 fontSize: 25, fontWeight: FontWeight.w700),
                           ),

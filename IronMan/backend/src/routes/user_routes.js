@@ -46,7 +46,6 @@ router.post("/getMyShop", async function(req, res) {
     console.log("Shops Found");
 });
 
-/*
 router.post("/placeOrder", async function(req, res) {
     const orderData =  req.body;
     console.log(orderData);
@@ -56,7 +55,7 @@ router.post("/placeOrder", async function(req, res) {
     orderData.token = token;
 
     const newOrder = new orderModel(orderData);
-    /*await newOrder.save(function(err) {
+    await newOrder.save(function(err) {
         if(err) {
             res.json({ success: false, error: err });
             console.log("Order not created");
@@ -65,28 +64,6 @@ router.post("/placeOrder", async function(req, res) {
         console.log("Order created");
         res.json({ success: true, data: newOrder });
     });
-    try{ 
-        let output = await newOrder.save()
-        console.log(output)
-        const shopName = orderData.ShopName
-        if(!shopName) {
-            res.status(400).json({ success: false, error: 'UserID is required' });
-            return;
-          }
-          const client = clients.get(shopName);
-          console.log(client+'me')
-          if (client) {
-            client.write(`data: ${JSON.stringify({ message: 'New order placed'})}\n\n`);
-            res = client.res;
-            console.log(client.res)
-            res.json({'newOrder':'true'});
-            console.log(`data: ${JSON.stringify({ message: 'New order placed'})}\n\n`)
-        }
-        res.json({ success: true});
-    }
-    catch(err){
-        res.json({ success: false, error: err })
-    }
 });
 router.get('/events', (req,res)=>{
     const shopName = req.query.shopName;
@@ -107,7 +84,7 @@ router.get('/events', (req,res)=>{
 
   });
 
-});*/ //mycode
+});//mycode
 /*
 router.get('/events', (req, res) => {
     const shopName = req.query.shopName;

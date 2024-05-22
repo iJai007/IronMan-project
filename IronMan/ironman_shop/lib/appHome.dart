@@ -143,7 +143,9 @@ class _AppHomeState extends State<AppHome> {
                   itemBuilder: (context, index) {
                     var len = orderData.length;
                     if (orderData[len - index - 1].orderStatus != 'Rejected' &&
-                        orderData[len - index - 1].orderStatus != 'Completed') {
+                        orderData[len - index - 1].orderStatus != 'Completed' &&
+                        orderData[len - index - 1].orderStatus !=
+                            'Delivering to Shop') {
                       return Card(
                         child: ListTile(
                           isThreeLine: true,
@@ -170,132 +172,6 @@ class _AppHomeState extends State<AppHome> {
                                     ),
                                   ),
                                   //Text(orderData[index].service.toString()),
-                                  Row(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: ElevatedButton.icon(
-                                          style: ButtonStyle(
-                                            backgroundColor:
-                                                MaterialStateProperty.all(
-                                              const Color.fromARGB(
-                                                  255, 2, 126, 6),
-                                            ),
-                                            foregroundColor:
-                                                MaterialStateProperty.all(
-                                              Colors.white,
-                                            ),
-                                          ),
-                                          onPressed: () async {
-                                            if (orderData[len - index - 1]
-                                                    .orderStatus ==
-                                                'Placed') {
-                                              setState(() {
-                                                orderData[len - index - 1]
-                                                    .orderStatus = 'Accepted';
-                                              });
-                                              /*var updated = await Mongoconnect()
-                                              .updateOrder(
-                                                  orderData[len - index - 1]);*/
-                                              var res = await Mongoconnect()
-                                                  .updateOrder(
-                                                      orderData[len - index - 1]
-                                                          .orderStatus,
-                                                      orderData[len - index - 1]
-                                                          .orderNumber);
-                                            } else if (orderData[
-                                                        len - index - 1]
-                                                    .orderStatus ==
-                                                'Accepted') {
-                                              setState(() {
-                                                orderData[len - index - 1]
-                                                    .orderStatus = 'Completed';
-                                              });
-                                              /*var updated = await Mongoconnect()
-                                              .updateOrder(
-                                                  orderData[len - index - 1]);*/
-                                              var res = await Mongoconnect()
-                                                  .updateOrder(
-                                                      orderData[len - index - 1]
-                                                          .orderStatus,
-                                                      orderData[len - index - 1]
-                                                          .orderNumber);
-                                            }
-                                          },
-                                          icon: const Icon(Icons.check),
-                                          label: (orderData[len - index - 1]
-                                                      .orderStatus ==
-                                                  'Placed')
-                                              ? const Text('Accept')
-                                              : const Text('Completed'),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: ElevatedButton.icon(
-                                          style: ButtonStyle(
-                                            backgroundColor:
-                                                (orderData[len - index - 1]
-                                                            .orderStatus ==
-                                                        'Placed')
-                                                    ? MaterialStateProperty.all(
-                                                        const Color.fromARGB(
-                                                            255, 159, 11, 0),
-                                                      )
-                                                    : MaterialStateProperty.all(
-                                                        const Color.fromARGB(
-                                                            255, 0, 56, 159),
-                                                      ),
-                                            foregroundColor:
-                                                MaterialStateProperty.all(
-                                              Colors.white,
-                                            ),
-                                          ),
-                                          onPressed: () async {
-                                            if ((orderData[len - index - 1]
-                                                    .orderStatus ==
-                                                'Placed')) {
-                                              setState(() {
-                                                orderData[len - index - 1]
-                                                    .orderStatus = 'Rejected';
-                                              });
-                                              /* var updated = await Mongoconnect()
-                                              .updateOrder(
-                                                  orderData[len - index - 1]);*/
-                                              var res = await Mongoconnect()
-                                                  .updateOrder(
-                                                      orderData[len - index - 1]
-                                                          .orderStatus,
-                                                      orderData[len - index - 1]
-                                                          .orderNumber);
-                                            } else {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        OrderDetails(
-                                                            order: orderData[
-                                                                len -
-                                                                    index -
-                                                                    1]),
-                                                  ));
-                                            }
-                                          },
-                                          icon: (orderData[len - index - 1]
-                                                      .orderStatus ==
-                                                  'Placed')
-                                              ? const Icon(
-                                                  Icons.cancel_outlined)
-                                              : const Icon(Icons.notes_rounded),
-                                          label: (orderData[len - index - 1]
-                                                      .orderStatus ==
-                                                  'Placed')
-                                              ? const Text('Reject')
-                                              : const Text('Details'),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
                                 ],
                               ),
                               const Text('Address: Vijaynagar'),
@@ -324,6 +200,133 @@ class _AppHomeState extends State<AppHome> {
                                     ],
                                   );
                                 },
+                              ),
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: ElevatedButton.icon(
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(
+                                          const Color.fromARGB(255, 2, 126, 6),
+                                        ),
+                                        foregroundColor:
+                                            MaterialStateProperty.all(
+                                          Colors.white,
+                                        ),
+                                      ),
+                                      onPressed: () async {
+                                        if (orderData[len - index - 1]
+                                                .orderStatus ==
+                                            'Placed') {
+                                          setState(() {
+                                            orderData[len - index - 1]
+                                                .orderStatus = 'Accepted';
+                                          });
+                                          /*var updated = await Mongoconnect()
+                                              .updateOrder(
+                                                  orderData[len - index - 1]);*/
+                                          var res = await Mongoconnect()
+                                              .updateOrder(
+                                                  orderData[len - index - 1]
+                                                      .orderStatus,
+                                                  orderData[len - index - 1]
+                                                      .orderNumber);
+                                        } else if (orderData[len - index - 1]
+                                                    .orderStatus ==
+                                                'Accepted' ||
+                                            orderData[len - index - 1]
+                                                    .orderStatus ==
+                                                'Delivering to Shop') {
+                                          setState(() {
+                                            orderData[len - index - 1]
+                                                .orderStatus = 'Completed';
+                                          });
+                                          /*var updated = await Mongoconnect()
+                                              .updateOrder(
+                                                  orderData[len - index - 1]);*/
+                                          var res = await Mongoconnect()
+                                              .updateOrder(
+                                                  orderData[len - index - 1]
+                                                      .orderStatus,
+                                                  orderData[len - index - 1]
+                                                      .orderNumber);
+                                        }
+                                      },
+                                      icon: const Icon(Icons.check),
+                                      label: (orderData[len - index - 1]
+                                                  .orderStatus ==
+                                              'Placed')
+                                          ? const Text('Accept')
+                                          : const Text('Completed'),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: ElevatedButton.icon(
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            (orderData[len - index - 1]
+                                                        .orderStatus ==
+                                                    'Placed')
+                                                ? MaterialStateProperty.all(
+                                                    const Color.fromARGB(
+                                                        255, 159, 11, 0),
+                                                  )
+                                                : MaterialStateProperty.all(
+                                                    const Color.fromARGB(
+                                                        255, 0, 56, 159),
+                                                  ),
+                                        foregroundColor:
+                                            MaterialStateProperty.all(
+                                          Colors.white,
+                                        ),
+                                      ),
+                                      onPressed: () async {
+                                        if ((orderData[len - index - 1]
+                                                    .orderStatus ==
+                                                'Placed' ||
+                                            orderData[len - index - 1]
+                                                    .orderStatus ==
+                                                'Delivering to Shop')) {
+                                          setState(() {
+                                            orderData[len - index - 1]
+                                                .orderStatus = 'Rejected';
+                                          });
+                                          /* var updated = await Mongoconnect()
+                                              .updateOrder(
+                                                  orderData[len - index - 1]);*/
+                                          var res = await Mongoconnect()
+                                              .updateOrder(
+                                                  orderData[len - index - 1]
+                                                      .orderStatus,
+                                                  orderData[len - index - 1]
+                                                      .orderNumber);
+                                        } else {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    OrderDetails(
+                                                        order: orderData[
+                                                            len - index - 1]),
+                                              ));
+                                        }
+                                      },
+                                      icon: (orderData[len - index - 1]
+                                                  .orderStatus ==
+                                              'Placed')
+                                          ? const Icon(Icons.cancel_outlined)
+                                          : const Icon(Icons.notes_rounded),
+                                      label: (orderData[len - index - 1]
+                                                  .orderStatus ==
+                                              'Placed')
+                                          ? const Text('Reject')
+                                          : const Text('Details'),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
@@ -356,7 +359,7 @@ class AppHome extends StatefulWidget {
   @override
   State<AppHome> createState() => _AppHomeState();
 }
-
+``
 class _AppHomeState extends State<AppHome> {
   @override
   Widget build(BuildContext context) {

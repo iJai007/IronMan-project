@@ -26,6 +26,12 @@ const OrderSchema = mongoose.Schema({
     OrderStatus:{
         type:String,
     },
+    Lat:{
+        type:String,
+    },
+    Lon:{
+        type:String,
+    },
     Cost:{
         type:String,
         //required:true,

@@ -13,7 +13,15 @@ const UserSchema = mongoose.Schema({
         //required:true,
     },
     Area:{
-        type:Object,
+        type:String,
+        //required:true,
+    },
+    Pincode:{
+        type:String,
+        //required:true,
+    },
+    Password:{
+        type:String,
         //required:true,
     },
 });

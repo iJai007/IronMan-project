@@ -23,7 +23,9 @@ class Getotp extends StatelessWidget {
               'UserName': user.name,
               'Phone': user.phone,
               'Address': user.address,
-              'Area': user.area
+              'Area': user.area,
+              'Pincode': user.pincode,
+              'Password': user.password
             }, te.text);
             if (res) {
               next();

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:ironman_shop/models/ordermodel.dart';
 import 'package:ironman_shop/mongoconnect.dart';
@@ -208,11 +207,11 @@ class _AppHomeState extends State<AppHome> {
                                     child: ElevatedButton.icon(
                                       style: ButtonStyle(
                                         backgroundColor:
-                                            MaterialStateProperty.all(
+                                            WidgetStateProperty.all(
                                           const Color.fromARGB(255, 2, 126, 6),
                                         ),
                                         foregroundColor:
-                                            MaterialStateProperty.all(
+                                            WidgetStateProperty.all(
                                           Colors.white,
                                         ),
                                       ),
@@ -234,11 +233,8 @@ class _AppHomeState extends State<AppHome> {
                                                   orderData[len - index - 1]
                                                       .orderNumber);
                                         } else if (orderData[len - index - 1]
-                                                    .orderStatus ==
-                                                'Accepted' ||
-                                            orderData[len - index - 1]
-                                                    .orderStatus ==
-                                                'Delivering to Shop') {
+                                                .orderStatus ==
+                                            'Processing') {
                                           setState(() {
                                             orderData[len - index - 1]
                                                 .orderStatus = 'Completed';
@@ -270,16 +266,16 @@ class _AppHomeState extends State<AppHome> {
                                             (orderData[len - index - 1]
                                                         .orderStatus ==
                                                     'Placed')
-                                                ? MaterialStateProperty.all(
+                                                ? WidgetStateProperty.all(
                                                     const Color.fromARGB(
                                                         255, 159, 11, 0),
                                                   )
-                                                : MaterialStateProperty.all(
+                                                : WidgetStateProperty.all(
                                                     const Color.fromARGB(
                                                         255, 0, 56, 159),
                                                   ),
                                         foregroundColor:
-                                            MaterialStateProperty.all(
+                                            WidgetStateProperty.all(
                                           Colors.white,
                                         ),
                                       ),

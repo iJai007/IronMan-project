@@ -46,7 +46,7 @@ router.post("/getMyShop", async function(req, res) {
     console.log("Shops Found");
 });
 
-router.post("/placeOrder", async function(req, res) {
+/*router.post("/placeOrder", async function(req, res) {
     const orderData =  req.body;
     console.log(orderData);
     // Create the JWT Token
@@ -64,7 +64,7 @@ router.post("/placeOrder", async function(req, res) {
         console.log("Order created");
         res.json({ success: true, data: newOrder });
     });
-});
+});*/
 router.get('/events', (req,res)=>{
     const shopName = req.query.shopName;
     if (!shopName) {
@@ -204,6 +204,7 @@ router.post("/updateOrderStatus", async function(req,res){
    //const updateOrder = new OrderModel(orderData);
    try{
     let output = await OrderModel.updateOne({'orderNumber':id},{'OrderStatus':orderStatus})
+    console.log(output)
    }
    catch(err){
     res.json({success: false, error: err})
@@ -219,18 +220,15 @@ router.post("/createUser", async function(req, res) {
     userData.token = token;
 
     const newUser = new UserModel(userData);
-    await newUser.save(function(err) {
-        if(err) {
-            res.json({ success: false, error: err });
-            console.log("User not created");
-            return;
-        }
-        console.log("User created");
-        res.json({ success: true, data: newUser });
-    });}
-    else{
-        res.json({success : false});
+    try {
+        const output = await newUser.save()
+        console.log(output)
+        res.json({success:true})
+    } catch (error) {
+        res.json({success:false})
     }
+    }
+   
 });
 
 router.post("/getOTP", function(req,res) {
@@ -238,10 +236,10 @@ router.post("/getOTP", function(req,res) {
     
 })
 router.post("/login", async function(req, res) {
-    const id = req.body.Docid;
-    const password = req.body.DocPass;
+    const id = req.body.Phone;
+    const password = req.body.Pass;
     //new line
-    const foundUser = await ShopModel.findOne({ Docid :  id });
+    const foundUser = await UserModel.findOne({ Phone :  id });
     if(!foundUser) {
         res.json({ success: false, error: "user-not-found" });
         console.log("User not found")
@@ -251,14 +249,14 @@ router.post("/login", async function(req, res) {
 
     //const correctPassword = await bcrypt.compare(password, foundUser.password);
     
-    if(foundUser.DocPass != password ) {
-        res.json({ success: false, error: "incorrect-password" });
-        console.log("Login fail");
+    if(foundUser.Password == password ) {
+        res.json({ success: true, data: foundUser });
+        console.log("Login Success");
         return;
     }
-
-    res.json({ success: true, data: foundUser });
-    console.log("Login Success");
+    res.json({ success: false, error: "incorrect-password" });
+        console.log("Login fail");
+    
 });
 
 

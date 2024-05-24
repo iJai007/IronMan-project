@@ -5,6 +5,7 @@ import 'package:ironman/apphome.dart';
 import 'package:ironman/models/ordermodel.dart';
 import 'package:ironman/models/shopmodel.dart';
 import 'package:ironman/mongoconnect.dart';
+import 'package:location/location.dart';
 import 'package:ironman/OrderPages/pay.dart';
 
 class Cart extends StatefulWidget {
@@ -68,6 +69,7 @@ class _CartState extends State<Cart> {
                   element.service: {element.item: element.qty}
                 });
               }*/ //old code can be deleted later
+                  var loc = await Location().getLocation();
                   var res = await Mongoconnect().saveOrder(json.encode({
                     'orderNumber': widget.UserID +
                         DateTime.now().day.toString() +
@@ -82,6 +84,8 @@ class _CartState extends State<Cart> {
                     'Services': widget.orderData,
                     'ShopName': widget.shop,
                     'OrderStatus': 'Placed',
+                    'Lat': loc.latitude.toString(),
+                    'Lon': loc.longitude.toString(),
                     'Cost': getTotal()
                   }));
                   (res)
@@ -147,8 +151,8 @@ class _CartState extends State<Cart> {
                                     Title(
                                         color: Colors.white,
                                         child: Text(
-                                          '${widget.order[index].item}',
-                                          style: TextStyle(fontSize: 25),
+                                          widget.order[index].item,
+                                          style: const TextStyle(fontSize: 25),
                                         )),
                                     Title(
                                         color: Colors.white,
@@ -227,10 +231,10 @@ class _CartState extends State<Cart> {
                       ),
                       ElevatedButton(
                           style: const ButtonStyle(
-                              backgroundColor: MaterialStatePropertyAll(
+                              backgroundColor: WidgetStatePropertyAll(
                                   Color.fromARGB(255, 0, 74, 2)),
                               foregroundColor:
-                                  MaterialStatePropertyAll(Colors.white)),
+                                  WidgetStatePropertyAll(Colors.white)),
                           onPressed: () {
                             Navigator.pop(context);
                           },

@@ -82,7 +82,7 @@ class _AppHomeState extends State<AppHome> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const Profile(),
+                    builder: (context) => Profile(),
                   ));
             },
             child: Card(
@@ -114,8 +114,8 @@ class _AppHomeState extends State<AppHome> {
           ElevatedButton(
             style: const ButtonStyle(
                 backgroundColor:
-                    MaterialStatePropertyAll(Color.fromARGB(255, 9, 75, 11)),
-                foregroundColor: MaterialStatePropertyAll(Colors.white)),
+                    WidgetStatePropertyAll(Color.fromARGB(255, 9, 75, 11)),
+                foregroundColor: WidgetStatePropertyAll(Colors.white)),
             onPressed: () {},
             child: const Text(
               'Previous Order',
@@ -131,8 +131,8 @@ class _AppHomeState extends State<AppHome> {
           ElevatedButton(
             style: const ButtonStyle(
                 backgroundColor:
-                    MaterialStatePropertyAll(Color.fromARGB(255, 9, 75, 11)),
-                foregroundColor: MaterialStatePropertyAll(Colors.white)),
+                    WidgetStatePropertyAll(Color.fromARGB(255, 9, 75, 11)),
+                foregroundColor: WidgetStatePropertyAll(Colors.white)),
             onPressed: () {},
             child: const Text(
               'Settings',
@@ -148,8 +148,8 @@ class _AppHomeState extends State<AppHome> {
           ElevatedButton(
             style: const ButtonStyle(
                 backgroundColor:
-                    MaterialStatePropertyAll(Color.fromARGB(255, 9, 75, 11)),
-                foregroundColor: MaterialStatePropertyAll(Colors.white)),
+                    WidgetStatePropertyAll(Color.fromARGB(255, 9, 75, 11)),
+                foregroundColor: WidgetStatePropertyAll(Colors.white)),
             onPressed: () {},
             child: const Text(
               'Log Out',
@@ -227,7 +227,7 @@ class _AppHomeState extends State<AppHome> {
                             IconButton(
                               iconSize: 35,
                               style: const ButtonStyle(
-                                  backgroundColor: MaterialStatePropertyAll(
+                                  backgroundColor: WidgetStatePropertyAll(
                                       Color.fromARGB(255, 2, 134, 149))),
                               onPressed: () {
                                 Navigator.push(
@@ -249,7 +249,7 @@ class _AppHomeState extends State<AppHome> {
                               iconSize: 5,
                               style: const ButtonStyle(
                                   backgroundColor:
-                                      MaterialStatePropertyAll(Colors.white)),
+                                      WidgetStatePropertyAll(Colors.white)),
 
                               onPressed: () {
                                 Navigator.push(
@@ -275,7 +275,7 @@ class _AppHomeState extends State<AppHome> {
                             IconButton(
                               iconSize: 25,
                               style: const ButtonStyle(
-                                  backgroundColor: MaterialStatePropertyAll(
+                                  backgroundColor: WidgetStatePropertyAll(
                                       Color.fromARGB(255, 0, 107, 228))),
                               onPressed: () {
                                 Navigator.push(
@@ -300,9 +300,9 @@ class _AppHomeState extends State<AppHome> {
                             IconButton(
                               iconSize: 5,
                               style: const ButtonStyle(
-                                  side: MaterialStatePropertyAll(BorderSide(
+                                  side: WidgetStatePropertyAll(BorderSide(
                                       color: Colors.white, width: 3)),
-                                  backgroundColor: MaterialStatePropertyAll(
+                                  backgroundColor: WidgetStatePropertyAll(
                                       Color.fromARGB(255, 246, 107, 2))),
                               onPressed: () {
                                 Navigator.push(
@@ -328,7 +328,7 @@ class _AppHomeState extends State<AppHome> {
                               iconSize: 5,
                               style: const ButtonStyle(
                                   backgroundColor:
-                                      MaterialStatePropertyAll(Colors.blue)),
+                                      WidgetStatePropertyAll(Colors.blue)),
                               onPressed: () {},
                               icon: Image.asset('lib/assests/utilityicon.png',
                                   scale: Checkbox.width / 5,
@@ -345,7 +345,7 @@ class _AppHomeState extends State<AppHome> {
                               iconSize: 5,
                               style: const ButtonStyle(
                                   backgroundColor:
-                                      MaterialStatePropertyAll(Colors.blue)),
+                                      WidgetStatePropertyAll(Colors.blue)),
                               onPressed: () async {
                                 //Locate().openMaps();
                                 Position pos =
@@ -370,7 +370,7 @@ class _AppHomeState extends State<AppHome> {
                               iconSize: 5,
                               style: const ButtonStyle(
                                   backgroundColor:
-                                      MaterialStatePropertyAll(Colors.blue)),
+                                      WidgetStatePropertyAll(Colors.blue)),
                               onPressed: () {},
                               icon: Image.asset('lib/assests/utilityicon.png',
                                   scale: Checkbox.width / 5,
@@ -386,19 +386,23 @@ class _AppHomeState extends State<AppHome> {
                             IconButton(
                               iconSize: 5,
                               style: const ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStatePropertyAll(Colors.blue)),
+                                  backgroundColor: WidgetStatePropertyAll(
+                                      Color.fromARGB(255, 4, 93, 3))),
                               onPressed: () {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => Predict(),
+                                      builder: (context) => const Predict(),
                                     ));
                               },
-                              icon: Image.asset('lib/assests/utilityicon.png',
+                              icon: const Icon(
+                                Icons.camera_alt_rounded,
+                                size: 35,
+                              ),
+                              /*Image.asset('lib/assests/utilityicon.png',
                                   scale: Checkbox.width / 5,
-                                  fit: BoxFit.fitHeight), //Icon(Icons.abc),
-                              color: Colors.amber,
+                                  fit: BoxFit.fitHeight),*/ //Icon(Icons.abc),
+                              color: Colors.white70,
                             ),
                             const Text('Predict')
                           ]),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:ironman_deli/delivery.dart';
 import 'package:ironman_deli/models/ordermodel.dart';
 import 'package:ironman_deli/mongoconnect.dart';
@@ -26,144 +27,164 @@ class _AppHomeState extends State<AppHome> {
       appBar: AppBar(
         title: const Text('IronPartner'),
       ),
-      body: FutureBuilder<List<dynamic>>(
-          future: getData,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              List<Ordermodel> data = snapshot.data!.cast<Ordermodel>();
-              data.removeWhere((element) {
-                return element.orderStatus != 'Accepted' &&
-                    element.orderStatus != 'Completed';
-              });
-              return ListView.builder(
-                itemCount: data.length,
-                itemBuilder: (context, index) {
-                  if (data.elementAt(index).orderStatus == 'Accepted' ||
-                      data.elementAt(index).orderStatus == 'Completed') {
-                    return Card(
-                      child: ListTile(
-                        title: Text(
-                          data.elementAt(index).orderNumber,
-                          style: const TextStyle(
-                              fontSize: 25, fontWeight: FontWeight.w700),
-                        ),
-                        subtitle: Column(
-                          children: [
-                            const Text('Delivery Charges: 50'),
-                            Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: ElevatedButton.icon(
+      body: RefreshIndicator(
+        triggerMode: RefreshIndicatorTriggerMode.onEdge,
+        onRefresh: () async {
+          data = List<Ordermodel>.from(
+              await Mongoconnect().getOrder('Jaideep Cleaners'));
+          setState(() {
+            data;
+          });
+        },
+        child: FutureBuilder<List<dynamic>>(
+            future: getData,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                List<Ordermodel> data = snapshot.data!.cast<Ordermodel>();
+                data.removeWhere((element) {
+                  return element.orderStatus != 'Accepted' &&
+                      element.orderStatus != 'Completed';
+                });
+                return ListView.builder(
+                  itemCount: data.length,
+                  itemBuilder: (context, index) {
+                    if (data.elementAt(index).orderStatus == 'Accepted' ||
+                        data.elementAt(index).orderStatus == 'Completed') {
+                      return Card(
+                        child: ListTile(
+                          title: Text(
+                            data.elementAt(index).orderNumber,
+                            style: const TextStyle(
+                                fontSize: 25, fontWeight: FontWeight.w700),
+                          ),
+                          subtitle: Column(
+                            children: [
+                              const Text('Delivery Charges: 50'),
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: ElevatedButton.icon(
+                                        style: const ButtonStyle(
+                                          backgroundColor:
+                                              WidgetStatePropertyAll(
+                                            Color.fromARGB(255, 2, 126, 6),
+                                          ),
+                                          foregroundColor:
+                                              WidgetStatePropertyAll(
+                                            Colors.white,
+                                          ),
+                                        ),
+                                        onPressed: () async {
+                                          if (data
+                                                  .elementAt(index)
+                                                  .orderStatus ==
+                                              'Accepted') {
+                                            setState(() {
+                                              data
+                                                      .elementAt(index)
+                                                      .orderStatus =
+                                                  'Collecting from User';
+                                            });
+                                            /*var updated = await Mongoconnect()
+                                                .updateOrder(
+                                                    orderData[len - index - 1]);*/
+                                            setState(() {
+                                              myData = data.elementAt(index);
+                                            });
+
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      Delivery(
+                                                    data: myData,
+                                                  ),
+                                                ));
+                                            var res = await Mongoconnect()
+                                                .updateOrder(
+                                                    data
+                                                        .elementAt(index)
+                                                        .orderStatus,
+                                                    data
+                                                        .elementAt(index)
+                                                        .orderNumber);
+                                          } else if (data
+                                                  .elementAt(index)
+                                                  .orderStatus ==
+                                              'Completed') {
+                                            setState(() {
+                                              data
+                                                      .elementAt(index)
+                                                      .orderStatus =
+                                                  'Collecting from Shop';
+                                            });
+                                            /*var updated = await Mongoconnect()
+                                                .updateOrder(
+                                                    orderData[len - index - 1]);*/
+                                            var res = await Mongoconnect()
+                                                .updateOrder(
+                                                    data
+                                                        .elementAt(index)
+                                                        .orderStatus,
+                                                    data
+                                                        .elementAt(index)
+                                                        .orderNumber);
+
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      Delivery(
+                                                    data: data.elementAt(index),
+                                                  ),
+                                                ));
+                                          }
+                                        },
+                                        icon: const Icon(Icons.check),
+                                        label: const Text('Accept')),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: ElevatedButton.icon(
                                       style: const ButtonStyle(
                                         backgroundColor: WidgetStatePropertyAll(
-                                          Color.fromARGB(255, 2, 126, 6),
+                                          Color.fromARGB(255, 159, 11, 0),
                                         ),
                                         foregroundColor: WidgetStatePropertyAll(
                                           Colors.white,
                                         ),
                                       ),
-                                      onPressed: () async {
-                                        if (data.elementAt(index).orderStatus ==
-                                            'Accepted') {
-                                          setState(() {
-                                            data.elementAt(index).orderStatus =
-                                                'Delivering to Shop';
-                                          });
-                                          /*var updated = await Mongoconnect()
-                                              .updateOrder(
-                                                  orderData[len - index - 1]);*/
-                                          setState(() {
-                                            myData = data.elementAt(index);
-                                          });
-
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) => Delivery(
-                                                  data: myData,
-                                                ),
-                                              ));
-                                          var res = await Mongoconnect()
-                                              .updateOrder(
-                                                  data
-                                                      .elementAt(index)
-                                                      .orderStatus,
-                                                  data
-                                                      .elementAt(index)
-                                                      .orderNumber);
-                                        } else if (data
-                                                .elementAt(index)
-                                                .orderStatus ==
-                                            'Completed') {
-                                          setState(() {
-                                            data.elementAt(index).orderStatus =
-                                                'Delivering to You';
-                                          });
-                                          /*var updated = await Mongoconnect()
-                                              .updateOrder(
-                                                  orderData[len - index - 1]);*/
-                                          var res = await Mongoconnect()
-                                              .updateOrder(
-                                                  data
-                                                      .elementAt(index)
-                                                      .orderStatus,
-                                                  data
-                                                      .elementAt(index)
-                                                      .orderNumber);
-
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) => Delivery(
-                                                  data: data.elementAt(index),
-                                                ),
-                                              ));
-                                        }
+                                      onPressed: () {
+                                        setState(() {
+                                          data.removeAt(index);
+                                        });
                                       },
-                                      icon: const Icon(Icons.check),
-                                      label: const Text('Accept')),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: ElevatedButton.icon(
-                                    style: const ButtonStyle(
-                                      backgroundColor: WidgetStatePropertyAll(
-                                        Color.fromARGB(255, 159, 11, 0),
-                                      ),
-                                      foregroundColor: WidgetStatePropertyAll(
-                                        Colors.white,
-                                      ),
+                                      icon: const Icon(Icons.cancel_outlined),
+                                      label: const Text('Reject'),
                                     ),
-                                    onPressed: () {
-                                      setState(() {
-                                        data.removeAt(index);
-                                      });
-                                    },
-                                    icon: const Icon(Icons.cancel_outlined),
-                                    label: const Text('Reject'),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ],
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  } else {
-                    return Text(
-                        'Waiting for Order${data.elementAt(index).orderStatus}');
-                  }
-                },
-              );
-            } else {
-              return const Center(
-                child: Card(
-                  child: CircularProgressIndicator(),
-                ),
-              );
-            }
-          }),
+                      );
+                    } else {
+                      return Text(
+                          'Waiting for Order${data.elementAt(index).orderStatus}');
+                    }
+                  },
+                );
+              } else {
+                return const Center(
+                  child: Card(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              }
+            }),
+      ),
     );
   }
 }
